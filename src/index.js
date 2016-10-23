@@ -1,6 +1,34 @@
+import 'whatwg-fetch';
 import React from 'react';
 import {render} from 'react-dom';
-const Start = () => <div>{'app'}</div>;
+import {observer} from 'mobx-react';
 
-render(<Start/>, document.getElementById('app'));
+import './styles/mains.scss';
+
+import Store from './store/store';
+import TransportAgent from './transport/transportAgent';
+
+import SidePanel from './containers/sidePanel.jsx';
+import Stage from './containers/stage.jsx';
+
+
+@observer
+class AppWrap extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className="MainSection">
+                {store.activeApplicationId === null ? null : <SidePanel {...this.props}/>}
+                <Stage {...this.props}/>
+            </div>
+        );
+    }
+}
+
+const store = new Store(new TransportAgent('http://localhost:4000'));
+
+render(<AppWrap store={store}/>, document.getElementById('app'));
 

@@ -1,0 +1,64 @@
+@import "~bulma";
+
+body {
+  height: 100%;
+}
+
+html {
+  height: 100%;
+  overflow-y: auto;
+}
+
+#app {
+  height: 100%;
+}
+
+.MainSection {
+  height: 100%;
+  display: flex;
+}
+
+.Stage {
+  flex: 1;
+}
+
+.SidePanel {
+  border-right: 1px solid black;
+  width: 200px;
+  height: 100%;
+
+  @media (max-width: 768px) {
+    width: 100px;
+  }
+
+  &-Header {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+}
+
+.ApplicationsList {
+  &-item {
+    display: flex;
+    justify-content: space-between;
+  }
+  &-itemName {
+    width: 100%;
+    cursor: pointer;
+  }
+}
+
+.ApplicationsCreateNew {
+  &-input {
+    font-size: 28px;
+    border: none;
+    border-bottom: 1px solid black;
+    margin:0 15px 15px 0;
+    &:focus {
+      outline: none;
+    }
+  }
+}

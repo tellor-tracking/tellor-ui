@@ -6,12 +6,16 @@
   ],
   "env": {
     "development": {
+      "plugins": [
+        "transform-decorators-legacy"
+      ],
       "presets": [
         "react-hmre"
       ]
     },
     "production": {
       "plugins": [
+        "transform-decorators-legacy",
         "transform-react-constant-elements",
         "transform-react-remove-prop-types"
       ]
