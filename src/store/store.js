@@ -1,5 +1,13 @@
 import { observable, computed, action, reaction } from 'mobx';
 
+function addToListIfUnique(targetList, items) {
+    items.forEach(i => {
+        if (!targetList.find(t => t.id === i.id)) {
+
+        }
+    })
+}
+
 class Store {
 
     @observable applications = [];
@@ -22,8 +30,18 @@ class Store {
     }
 
     getApplication(id) {
-        this.applications.find(app => app.id === id);
+        return this.applications.find(app => app.id === id);
     }
+
+    @action getActiveApplication() {
+        return this.getApplication(this.activeApplicationId);
+    }
+
+    @action deselectApplication = () => {
+        this.activeApplicationId = null;
+    };
+
+
 
     @action selectApplication(id) {
         const app = this.applications.find((a) => a.id === id);
@@ -35,7 +53,9 @@ class Store {
     }
 
     @action createApplication(appData) {
-        console.log('TODO', appData);
+        this.transportAgent.createApplication(appData)
+            .then(r => this.applications.push(new Application(this, Object.assign({}, appData, r))))
+            .catch(error => console.error(`Failed to create application`, error));
     }
 }
 

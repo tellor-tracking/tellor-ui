@@ -1,11 +1,12 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 
-function SidePanelHeader({domainStore}) {
-    const title ='TODO';
+function SidePanelHeader({store}) {
+    const title = store.getActiveApplication().name;
+
     return (
         <div className="SidePanel-Header">
-            <h3 className="title">{title}</h3>
+            <h3 onClick={store.deselectApplication} className="title">{title}</h3>
         </div>
     );
 }

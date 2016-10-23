@@ -9,11 +9,11 @@ function name({name, onClick}) {
     );
 }
 
-function infoBtn({onClick}) {
+function infoBtn({appKey}) {
     return (
-        <button onClick={onClick} className="ApplicationsList-infoBtn button is-link is-pulled-right">
-            {'Info'}
-        </button>
+        <span className="ApplicationsList-infoBtn subtitle">
+            {`app key: ${appKey}`}
+        </span>
     );
 }
 
@@ -24,7 +24,7 @@ function ApplicationsListItem({app}) {
     return (
         <div className="ApplicationsList-item">
             <Name onClick={app.select.bind(app)} name={app.name}/>
-            <InfoBtn onClick={app.showInfo.bind(app)} name={app.name}/>
+            <InfoBtn appKey={app.id}/>
         </div>
     );
 }
