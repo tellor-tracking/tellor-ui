@@ -5,7 +5,7 @@ function addToListIfUnique(targetList, items) {
         if (!targetList.find(t => t.id === i.id)) {
 
         }
-    })
+    });
 }
 
 class Store {
@@ -69,9 +69,10 @@ class Application {
     @observable isFetching = false;
 
     constructor(store, {id, name}) {
+        this.store = store;
+
         this.id = id;
         this.name = name;
-        this.store = store;
 
         //reaction(() => this.isActive, (isActive) => isActive ? this.fetchEvents() : null);
     }
@@ -100,14 +101,66 @@ class Application {
         this.isFetching = false;
         events.forEach(ev=> {
             if (!this.events.find(existingEv => existingEv.id === ev.id)) {
-                this.events.push(new Event(ev));
+                this.events.push(new Event(this.store, this, ev));
             }
         });
+    }
+
+    @action filterEvents(filterValue) {
+        for (let event of this.events) {
+            event.isVisibleInSidePanel = event.name.toLowerCase().indexOf(filterValue) > -1;
+        }
+    }
+
+    @action displayAllEvents() {
+        for (let event of this.events) {
+            event.isVisibleInSidePanel = true;
+        }
+    }
+
+    @action selectEvent = (id) => {
+        for (let event of this.events) {
+            event.name.id === id ? event.select() : event.deselect();
+        }
     }
 }
 
 class Event {
+    @observable segmentation = [];
+    @observable id = null;
+    @observable name = null;
+    @observable isActive = false;
+    @observable isVisibleInSidePanel = true;
 
+    @observable isFetching = false;
+
+    constructor(store, application, {id, name, segmentation}) {
+        this.store = store;
+        this.application = application;
+
+        this.id = id;
+        this.name = name;
+        this.segmentation = segmentation;
+    }
+
+    @action select = () => {
+        this.isActive = true;
+        this.onSelect();
+    };
+
+    @action deselect = () => {
+        if (this.isActive === false) return;
+        this.isActive = true;
+        this.onDeselect();
+    };
+
+    @action onSelect = () => {
+        // fetch/udate data, autofetch..
+    };
+
+    @action onDeselect = () => {
+
+    };
 }
 
 export default Store;
