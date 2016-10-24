@@ -6,7 +6,7 @@ function SidePanelHeader({store}) {
 
     return (
         <div className="SidePanel-Header">
-            <h3 onClick={store.deselectApplication} className="title">{title}</h3>
+            <h3 onClick={store.deselectActiveApplication} className="title">{title}</h3>
         </div>
     );
 }

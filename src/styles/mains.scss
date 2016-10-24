@@ -1,4 +1,12 @@
+@import '~react-dates/css/variables.scss';
+@import '~react-dates/css/styles.scss';
 @import "~bulma";
+
+
+// fix cuz bulma overrides
+.CalendarMonth td {
+  text-align: center;
+}
 
 body {
   height: 100%;
@@ -60,4 +68,8 @@ html {
       outline: none;
     }
   }
+}
+
+.StageEvents, .StatsPanel {
+  height: 100%;
 }

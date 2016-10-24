@@ -33,10 +33,14 @@
     "mobx": "^2.6.0",
     "mobx-react": "^3.5.8",
     "mobx-react-devtools": "^4.2.9",
+    "moment": "^2.15.2",
     "object-assign": "4.1.0",
-    "react": "15.3.1",
-    "react-dom": "15.3.1",
+    "react": "^15.3.2",
+    "react-addons-shallow-compare": "^15.3.2",
+    "react-dates": "^3.4.0",
+    "react-dom": "^15.3.2",
     "react-router": "2.7.0",
+    "recharts": "^0.15.2",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {

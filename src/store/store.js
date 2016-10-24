@@ -1,12 +1,5 @@
 import { observable, computed, action, reaction } from 'mobx';
 
-function addToListIfUnique(targetList, items) {
-    items.forEach(i => {
-        if (!targetList.find(t => t.id === i.id)) {
-
-        }
-    });
-}
 
 class Store {
 
@@ -37,25 +30,33 @@ class Store {
         return this.getApplication(this.activeApplicationId);
     }
 
-    @action deselectApplication = () => {
+    @action selectApplication(id) { // TODO maybe do all this selecting by using observables?
+        if (this.activeApplicationId !== null && this.activeApplicationId !== id) {
+            this.deselectActiveApplication();
+        }
+
+        const app = this.applications.find((a) => a.id === id);
+        if (app) {
+            this.activeApplicationId = id;
+            app.isActive = true;
+        }
+
+        return app;
+    }
+
+    @action deselectActiveApplication = () => {
+        const activeApp = this.getActiveApplication();
+        if (activeApp) {
+            activeApp.isActive = false;
+        }
+
         this.activeApplicationId = null;
     };
 
 
-
-    @action selectApplication(id) {
-        const app = this.applications.find((a) => a.id === id);
-        if (app) {
-            this.activeApplicationId = id;
-            app.select();
-        }
-        return app;
-    }
-
     @action createApplication(appData) {
         this.transportAgent.createApplication(appData)
             .then(r => this.applications.push(new Application(this, Object.assign({}, appData, r))))
-            .catch(error => console.error(`Failed to create application`, error));
     }
 }
 
@@ -65,6 +66,7 @@ class Application {
     @observable id = null;
     @observable name = null;
     @observable isActive = false;
+    @observable activeEventId = null;
 
     @observable isFetching = false;
 
@@ -74,13 +76,15 @@ class Application {
         this.id = id;
         this.name = name;
 
-        //reaction(() => this.isActive, (isActive) => isActive ? this.fetchEvents() : null);
+        reaction(() => this.isActive, (isActive) => isActive ? this.fetchEvents() : this.deselectActiveEvent());
     }
 
     @action select() {
-        this.fetchEvents();
-        this.isActive = true;
-        this.store.activeApplicationId = this.id;
+        this.store.selectApplication(this.id);
+    }
+
+    @action deselect() {
+        this.store.deselectActiveApplication();
     }
 
     @action showInfo() {
@@ -119,18 +123,43 @@ class Application {
     }
 
     @action selectEvent = (id) => {
-        for (let event of this.events) {
-            event.name.id === id ? event.select() : event.deselect();
+        if (this.activeEventId !== null && this.activeEventId !== id) {
+            this.deselectActiveEvent();
         }
+
+        const event = this.events.find((e) => e.id === id);
+        if (event) {
+            this.activeEventId = id;
+            event.isActive = true;
+        }
+
+        return event;
+    };
+
+    @action deselectActiveEvent = () => {
+        const activeEvent = this.getActiveEvent();
+
+        if (activeEvent) {
+            activeEvent.isActive = false;
+        }
+        this.activeEventId = null;
+    };
+
+    @action getActiveEvent = () => {
+        return this.events.find(ev => ev.id === this.activeEventId);
     }
 }
 
 class Event {
-    @observable segmentation = [];
+    statsPoolingInterval = 15000;
+    @observable segmentation = null;
     @observable id = null;
     @observable name = null;
     @observable isActive = false;
-    @observable isVisibleInSidePanel = true;
+    @observable isVisibleInSidePanel = true; // for filtering
+
+    @observable count = null;
+    @observable segmentationCounts = null;
 
     @observable isFetching = false;
 
@@ -141,25 +170,32 @@ class Event {
         this.id = id;
         this.name = name;
         this.segmentation = segmentation;
+        reaction(() => this.isActive, (isActive) => isActive ? this.fetchBasicCountsOnInterval() : null);
+
     }
 
     @action select = () => {
-        this.isActive = true;
-        this.onSelect();
+        this.application.selectEvent(this.id);
     };
 
     @action deselect = () => {
-        if (this.isActive === false) return;
-        this.isActive = true;
-        this.onDeselect();
+        this.application.deselectActiveEvent();
     };
 
-    @action onSelect = () => {
-        // fetch/udate data, autofetch..
-    };
+    @action fetchBasicCountsOnInterval = () => {
+        this.isFetching = true;
+        this.store.transportAgent.fetchOneEventCounts(this.id)
+            .then(stats => {
+                this.count = stats.count;
+                this.segmentationCounts = stats.segmentation;
 
-    @action onDeselect = () => {
+                this.isFetching = false;
+            })
+            .catch(() => this.isFetching = false);
 
+        if (this.isActive) {
+            setTimeout(this.fetchBasicCountsOnInterval, this.statsPoolingInterval);
+        }
     };
 }
 

@@ -1,3 +1,9 @@
+function toJsonLogError(fetchPromise) {
+    return fetchPromise.then(r => r.json()).catch(e => {
+        console.log('Failed to fetch', e);
+        return Promise.reject(e);
+    });
+}
 
 export default class TransportAgent {
     constructor(base = '') {
@@ -9,7 +15,7 @@ export default class TransportAgent {
 
     createApplication(appData) {
 
-        return fetch(`${this.base}/api/applications`,
+        return toJsonLogError(fetch(`${this.base}/api/applications`,
             {
                 method: 'POST',
                 body: JSON.stringify(appData),
@@ -18,14 +24,18 @@ export default class TransportAgent {
                     'Content-Type': 'application/json'
                 }
             }
-        ).then(r=> r.json());
+        ));
     }
 
     fetchEvents(appId) {
-        return fetch(`${this.base}/api/${appId}/events`).then(r=> r.json());
+        return toJsonLogError(fetch(`${this.base}/api/${appId}/events`));
     }
 
     fetchEventsCounts(appId) {
-        return fetch(`${this.base}/api/${appId}/events/count`).then(r=> r.json());
+        return toJsonLogError(fetch(`${this.base}/api/${appId}/events/count`));
+    }
+
+    fetchOneEventCounts(eventId) {
+        return toJsonLogError(fetch(`${this.base}/api/events/${eventId}/count`));
     }
 }

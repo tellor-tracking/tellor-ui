@@ -1,9 +1,9 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 
-import SidePanelHeader from '../components/side-panel/header';
-import SidePanelSearchBox from '../components/side-panel/searchBox';
-import SidePanelEventsList from '../components/side-panel/itemList';
+import SidePanelHeader from '../components/side-panel/sidePanelHeader';
+import SidePanelSearchBox from '../components/side-panel/sidePanelSearchBox';
+import SidePanelEventsList from '../components/side-panel/sidePanelItemList';
 
 @observer
 class SidePanel extends React.Component {

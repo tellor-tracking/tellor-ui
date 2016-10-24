@@ -2,6 +2,7 @@ import 'whatwg-fetch';
 import React from 'react';
 import {render} from 'react-dom';
 import {observer} from 'mobx-react';
+import DevTools from 'mobx-react-devtools';
 
 import './styles/mains.scss';
 

@@ -4,7 +4,7 @@ import {observer} from 'mobx-react';
 
 function SidePanelEventsListItem({ev}) {
     return (
-        <div className="SidePanelEventsList-item">
+        <div onClick={ev.select} className="SidePanelEventsList-item">
             {ev.name}
         </div>
     );

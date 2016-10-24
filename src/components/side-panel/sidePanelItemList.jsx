@@ -1,7 +1,7 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 
-import SidePanelEventsListItem from './itemListItem.jsx';
+import SidePanelEventsListItem from './sidePanelItemListItem.jsx';
 
 function SidePanelEventsList({store}) {
     return (
