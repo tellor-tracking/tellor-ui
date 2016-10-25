@@ -2,12 +2,14 @@ import React from 'react';
 import {observer} from 'mobx-react';
 
 import DateRangePicker from './eventsDatePicker.jsx';
+import EventsSegmentationSelector from './eventsSegmentationSelector.jsx';
 
 
-function EventsHeader(props) {
+function EventsHeader({event}) {
     return (
         <header className="EventsHeader">
-            <DateRangePicker {...props} />
+            <DateRangePicker event={event} />
+            <EventsSegmentationSelector event={event} />
         </header>
     );
 }

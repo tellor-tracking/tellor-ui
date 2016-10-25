@@ -1,4 +1,6 @@
-import { observable, computed, action, reaction } from 'mobx';
+import { observable, computed, action, reaction, autorun, asStructure, asReference, toJS } from 'mobx';
+import moment from 'moment';
+import { DATE_FORMAT } from '../constants';
 
 
 class Store {
@@ -152,7 +154,10 @@ class Application {
 
 class Event {
     statsPoolingInterval = 15000;
+    fetchTimeOutId = null;
     @observable segmentation = null;
+    @observable activeSegmentation = null;
+
     @observable id = null;
     @observable name = null;
     @observable isActive = false;
@@ -160,6 +165,11 @@ class Event {
 
     @observable count = null;
     @observable segmentationCounts = null;
+
+    @observable countsQuery = {
+        startDate: moment.utc().subtract(30, 'days').format(DATE_FORMAT),
+        endDate: moment.utc().format(DATE_FORMAT)
+    };
 
     @observable isFetching = false;
 
@@ -171,6 +181,8 @@ class Event {
         this.name = name;
         this.segmentation = segmentation;
         reaction(() => this.isActive, (isActive) => isActive ? this.fetchBasicCountsOnInterval() : null);
+        reaction(() => this.countsQuery.startDate, () => this.fetchBasicCountsOnInterval());
+        reaction(() => this.countsQuery.endDate, () => this.fetchBasicCountsOnInterval());
 
     }
 
@@ -183,8 +195,10 @@ class Event {
     };
 
     @action fetchBasicCountsOnInterval = () => {
+        clearTimeout(this.fetchTimeOutId);
         this.isFetching = true;
-        this.store.transportAgent.fetchOneEventCounts(this.id)
+        console.log(toJS(this.countsQuery));
+        this.store.transportAgent.fetchOneEventCounts(this.id, this.countsQuery)
             .then(stats => {
                 this.count = stats.count;
                 this.segmentationCounts = stats.segmentation;
@@ -194,8 +208,12 @@ class Event {
             .catch(() => this.isFetching = false);
 
         if (this.isActive) {
-            setTimeout(this.fetchBasicCountsOnInterval, this.statsPoolingInterval);
+            this.fetchTimeOutId = setTimeout(this.fetchBasicCountsOnInterval, this.statsPoolingInterval);
         }
+    };
+
+    @action selectSegmentation = (value) => {
+        this.activeSegmentation = value;
     };
 }
 

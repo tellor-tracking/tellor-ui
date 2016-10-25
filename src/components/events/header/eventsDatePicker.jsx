@@ -1,14 +1,14 @@
 import React from 'react';
+import moment from 'moment';
 
+import { DATE_FORMAT } from '../../../constants';
 import {DateRangePicker} from 'react-dates';
 
-class DateRangePickerWrapper extends React.Component {
+class EventsDatePicker extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             focusedInput: null,
-            startDate: null,
-            endDate: null,
         };
 
         this.onDatesChange = this.onDatesChange.bind(this);
@@ -16,7 +16,12 @@ class DateRangePickerWrapper extends React.Component {
     }
 
     onDatesChange({ startDate, endDate }) {
-        this.setState({ startDate, endDate });
+        if (startDate) {
+            this.props.event.countsQuery.startDate = startDate.format(DATE_FORMAT);
+        }
+        if (endDate) {
+            this.props.event.countsQuery.endDate = endDate.format(DATE_FORMAT);
+        }
     }
 
     onFocusChange(focusedInput) {
@@ -24,19 +29,20 @@ class DateRangePickerWrapper extends React.Component {
     }
 
     render() {
-        const { focusedInput, startDate, endDate } = this.state;
+        const {focusedInput} = this.state;
         return (
             <div>
                 <DateRangePicker
                     onDatesChange={this.onDatesChange}
                     onFocusChange={this.onFocusChange}
                     focusedInput={focusedInput}
-                    startDate={startDate}
-                    endDate={endDate}
+                    startDate={moment(this.props.event.countsQuery.startDate)}
+                    endDate={moment(this.props.event.countsQuery.endDate)}
+                    isOutsideRange={() => false}
                 />
             </div>
         );
     }
 }
 
-export default DateRangePickerWrapper;
+export default EventsDatePicker;

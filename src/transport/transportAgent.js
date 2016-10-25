@@ -1,8 +1,21 @@
+
 function toJsonLogError(fetchPromise) {
     return fetchPromise.then(r => r.json()).catch(e => {
-        console.log('Failed to fetch', e);
+        console.error('Failed to fetch', e);
         return Promise.reject(e);
     });
+}
+
+function formatQuery(queryObject) {
+    const getDivider = (q) => q.indexOf('?') > -1 ? '&' : '?';
+
+    return Object.keys(queryObject).reduce((query, key) => {
+        if (queryObject[key] !== null) {
+            query += `${getDivider(query) + key}=${queryObject[key]}`;
+        }
+
+        return query;
+    }, '');
 }
 
 export default class TransportAgent {
@@ -31,11 +44,11 @@ export default class TransportAgent {
         return toJsonLogError(fetch(`${this.base}/api/${appId}/events`));
     }
 
-    fetchEventsCounts(appId) {
-        return toJsonLogError(fetch(`${this.base}/api/${appId}/events/count`));
+    fetchEventsCounts(appId, {startDate = null, endDate = null}) {
+        return toJsonLogError(fetch(`${this.base}/api/${appId}/events/count${formatQuery({startDate, endDate})}`));
     }
 
-    fetchOneEventCounts(eventId) {
-        return toJsonLogError(fetch(`${this.base}/api/events/${eventId}/count`));
+    fetchOneEventCounts(eventId, {startDate = null, endDate = null}) {
+        return toJsonLogError(fetch(`${this.base}/api/events/${eventId}/count${formatQuery({startDate, endDate})}`));
     }
 }
