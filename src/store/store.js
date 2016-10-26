@@ -1,4 +1,5 @@
 import { observable, computed, action, reaction, autorun, asStructure, asReference, toJS } from 'mobx';
+import _get from 'lodash/get';
 import moment from 'moment';
 import { DATE_FORMAT } from '../constants';
 
@@ -153,18 +154,24 @@ class Application {
 }
 
 class Event {
+    DEFAULT_SEGMENATATION = 'count';
+
     statsPoolingInterval = 15000;
     fetchTimeOutId = null;
+    stats = null;
+    dataToDisplayKey = this.DEFAULT_SEGMENATATION;
+
+
+    @observable dataToDisplay = null;
+
     @observable segmentation = null;
-    @observable activeSegmentation = null;
+    @observable activeSegmentation = this.DEFAULT_SEGMENATATION;
 
     @observable id = null;
     @observable name = null;
     @observable isActive = false;
     @observable isVisibleInSidePanel = true; // for filtering
 
-    @observable count = null;
-    @observable segmentationCounts = null;
 
     @observable countsQuery = {
         startDate: moment.utc().subtract(30, 'days').format(DATE_FORMAT),
@@ -183,7 +190,6 @@ class Event {
         reaction(() => this.isActive, (isActive) => isActive ? this.fetchBasicCountsOnInterval() : null);
         reaction(() => this.countsQuery.startDate, () => this.fetchBasicCountsOnInterval());
         reaction(() => this.countsQuery.endDate, () => this.fetchBasicCountsOnInterval());
-
     }
 
     @action select = () => {
@@ -197,13 +203,11 @@ class Event {
     @action fetchBasicCountsOnInterval = () => {
         clearTimeout(this.fetchTimeOutId);
         this.isFetching = true;
-        console.log(toJS(this.countsQuery));
         this.store.transportAgent.fetchOneEventCounts(this.id, this.countsQuery)
             .then(stats => {
-                this.count = stats.count;
-                this.segmentationCounts = stats.segmentation;
-
+                this.stats = stats;
                 this.isFetching = false;
+                this.setDataToDisplay();
             })
             .catch(() => this.isFetching = false);
 
@@ -214,7 +218,14 @@ class Event {
 
     @action selectSegmentation = (value) => {
         this.activeSegmentation = value;
+        this.dataToDisplayKey = `segmentation.${value}`;
+        this.setDataToDisplay();
     };
+
+    @action setDataToDisplay = () => {
+       this.dataToDisplay = _get(this.stats, this.dataToDisplayKey);
+    };
+
 }
 
 export default Store;

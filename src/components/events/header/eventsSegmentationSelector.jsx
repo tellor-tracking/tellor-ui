@@ -1,5 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
+import capitalize from 'lodash/capitalize';
 
 class EventsSegmentationSelector extends React.Component {
     constructor(props) {
@@ -15,8 +16,9 @@ class EventsSegmentationSelector extends React.Component {
 
         return (
             <span className="EventsSegmentationSelector select">
-                <select value={event.activeSegmentation || ''} onChange={this.handleSelect} name="segmentation">
-                    {event.segmentation.map(s => <option key={s} value={s}>{s}</option>)}
+                <select value={event.activeSegmentation} onChange={this.handleSelect} name="segmentation">
+                    <option value="count">Total count</option>
+                    {event.segmentation.map(s => <option key={s} value={s}>{capitalize(s)}</option>)}
                 </select>
             </span>
         );
