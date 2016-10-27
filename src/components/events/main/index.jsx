@@ -1,13 +1,16 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 
-import EventsChart from './eventsChart.jsx';
+import EventsChartSwitcher from './eventsChartSwitcher.jsx';
+import EventsLineChart from './eventsLineChart.jsx';
+import EventsBarChart from './eventsBarChart.jsx';
 
 
 function EventsMain({event}) {
     return (
         <div className="EventsMain">
-            <EventsChart event={event} />
+            <EventsChartSwitcher event={event} />
+            {event.chartType === event.CHARTS.LINE ? <EventsLineChart event={event} /> : <EventsBarChart event={event} />}
         </div>
     );
 }

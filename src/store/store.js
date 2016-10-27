@@ -154,18 +154,23 @@ class Application {
 }
 
 class Event {
-    DEFAULT_SEGMENATATION = 'count';
+    DEFAULT_SEGMENTATION = 'count';
+    CHARTS = {
+        LINE: 'LINE',
+        BAR: 'BAR'
+    };
 
     statsPoolingInterval = 15000;
     fetchTimeOutId = null;
     stats = null;
-    dataToDisplayKey = this.DEFAULT_SEGMENATATION;
+    dataToDisplayKey = this.DEFAULT_SEGMENTATION;
 
 
     @observable dataToDisplay = null;
+    @observable chartType = this.CHARTS.LINE;
 
     @observable segmentation = null;
-    @observable activeSegmentation = this.DEFAULT_SEGMENATATION;
+    @observable activeSegmentation = this.DEFAULT_SEGMENTATION;
 
     @observable id = null;
     @observable name = null;
@@ -220,6 +225,10 @@ class Event {
         this.activeSegmentation = value;
         this.dataToDisplayKey = `segmentation.${value}`;
         this.setDataToDisplay();
+    };
+
+    @action selectChartType = (value) => {
+        this.chartType = value;
     };
 
     @action setDataToDisplay = () => {
