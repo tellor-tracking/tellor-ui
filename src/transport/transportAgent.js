@@ -40,6 +40,12 @@ export default class TransportAgent {
         ));
     }
 
+    fetchInitialApplicationData() {
+        // TODO
+        // events list, total events count, events count per selected (default) period, most popular events (top 5),
+        // event count diff (by % compared to 1 week, 1 month)
+    }
+
     fetchEvents(appId) {
         return toJsonLogError(fetch(`${this.base}/api/${appId}/events`));
     }
