@@ -167,6 +167,7 @@ class Event {
 
 
     @observable dataToDisplay = null;
+    @observable totalCount = null;
     @observable chartType = this.CHARTS.LINE;
 
     @observable segmentation = null;
@@ -233,6 +234,7 @@ class Event {
 
     @action setDataToDisplay = () => {
        this.dataToDisplay = _get(this.stats, this.dataToDisplayKey);
+       this.totalCount = this.stats.totalCount;
     };
 
 }
