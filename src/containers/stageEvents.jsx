@@ -14,7 +14,7 @@ class StageEvents extends React.Component {
         const activeEvent = app.activeEventId !== null ? app.getActiveEvent() : null;
         return (
             <div className="StageEvents section">
-                {activeEvent ? <EventsStatsPanels event={activeEvent}/>: 'Nothing to see :)'}
+                {activeEvent ? <EventsStatsPanels event={activeEvent} application={app} />: 'Nothing to see :)'}
             </div>
         );
     }

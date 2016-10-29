@@ -17,10 +17,10 @@ class EventsDatePicker extends React.Component {
 
     onDatesChange({ startDate, endDate }) {
         if (startDate) {
-            this.props.event.countsQuery.startDate = startDate.format(DATE_FORMAT);
+            this.props.app.statsQuery.startDate = startDate.format(DATE_FORMAT);
         }
         if (endDate) {
-            this.props.event.countsQuery.endDate = endDate.format(DATE_FORMAT);
+            this.props.app.statsQuery.endDate = endDate.format(DATE_FORMAT);
         }
     }
 
@@ -36,8 +36,8 @@ class EventsDatePicker extends React.Component {
                     onDatesChange={this.onDatesChange}
                     onFocusChange={this.onFocusChange}
                     focusedInput={focusedInput}
-                    startDate={moment(this.props.event.countsQuery.startDate)}
-                    endDate={moment(this.props.event.countsQuery.endDate)}
+                    startDate={moment(this.props.app.statsQuery.startDate)}
+                    endDate={moment(this.props.app.statsQuery.endDate)}
                     isOutsideRange={() => false}
                 />
             </div>

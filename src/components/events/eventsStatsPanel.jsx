@@ -5,12 +5,10 @@ import EventsHeader from './header/index.jsx';
 import EventsMain from './main/index.jsx';
 
 
-
-
-function EventsStatsPanel({event}) {
+function EventsStatsPanel({event, application}) {
     return (
         <div className="StatsPanel container">
-            <EventsHeader event={event} />
+            <EventsHeader application={application} />
             <EventsMain event={event} />
         </div>
     );

@@ -73,6 +73,12 @@ class Application {
 
     @observable isFetching = false;
 
+    @observable statsQuery = {
+        startDate: moment.utc().subtract(30, 'days').format(DATE_FORMAT),
+        endDate: moment.utc().format(DATE_FORMAT)
+    };
+
+
     constructor(store, {id, name}) {
         this.store = store;
 
@@ -178,12 +184,6 @@ class Event {
     @observable isActive = false;
     @observable isVisibleInSidePanel = true; // for filtering
 
-
-    @observable countsQuery = {
-        startDate: moment.utc().subtract(30, 'days').format(DATE_FORMAT),
-        endDate: moment.utc().format(DATE_FORMAT)
-    };
-
     @observable isFetching = false;
 
     constructor(store, application, {id, name, segmentation}) {
@@ -194,8 +194,8 @@ class Event {
         this.name = name;
         this.segmentation = segmentation;
         reaction(() => this.isActive, (isActive) => isActive ? this.fetchBasicCountsOnInterval() : null);
-        reaction(() => this.countsQuery.startDate, () => this.fetchBasicCountsOnInterval());
-        reaction(() => this.countsQuery.endDate, () => this.fetchBasicCountsOnInterval());
+        reaction(() => this.application.statsQuery.startDate, () => this.fetchBasicCountsOnInterval());
+        reaction(() => this.application.statsQuery.endDate, () => this.fetchBasicCountsOnInterval());
     }
 
     @action select = () => {
@@ -209,7 +209,7 @@ class Event {
     @action fetchBasicCountsOnInterval = () => {
         clearTimeout(this.fetchTimeOutId);
         this.isFetching = true;
-        this.store.transportAgent.fetchOneEventCounts(this.id, this.countsQuery)
+        this.store.transportAgent.fetchOneEventCounts(this.id, this.application.statsQuery)
             .then(stats => {
                 this.stats = stats;
                 this.isFetching = false;
