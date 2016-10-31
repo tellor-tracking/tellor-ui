@@ -25,7 +25,7 @@ class SidePanelSearchBox extends React.Component {
     render() {
         return (
             <div className="SidePanel-searchBox">
-                <input onChange={this.onChange} className="" type="text"/>
+                <input onChange={this.onChange} className="" type="text" placeholder="Event name"/>
             </div>
         );
     }

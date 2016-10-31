@@ -5,7 +5,12 @@ import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsiv
 import uniq from 'lodash/uniq';
 import capitalize from 'lodash/capitalize';
 
-
+const colors = [
+    '#8884d8',
+    '#FFE48B',
+    '#EF83A9',
+    '#BCF284',
+];
 
 class EventsLineChart extends React.Component {
     constructor(props) {
@@ -22,12 +27,14 @@ class EventsLineChart extends React.Component {
         }, [])).filter(v => v !== 'date');
 
         // TODO add colors,
-        return keys.map(k => <Line key={k}
+        return keys.map((k, i) => <Line key={k}
                                    type="monotone"
                                    name={capitalize(k)}
                                    dataKey={k}
-                                   stroke="#8884d8"
+                                   stroke={colors[i % 4]}
                                    activeDot={{r: 8}}
+                                   connectNulls={true}
+                                   strokeWidth={2}
                                    isAnimationActive={false}/>);
     };
 

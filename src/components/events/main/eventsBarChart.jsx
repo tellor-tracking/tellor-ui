@@ -43,7 +43,7 @@ function EventsBarChart () {
                     <YAxis/>
                     <CartesianGrid strokeDasharray="3 3"/>
                     <Tooltip/>
-                    <Bar dataKey="value" fill="#9AC2C9" isAnimationActive={false}/>
+                    <Bar dataKey="value" fill="#8884d8" isAnimationActive={false}/>
                 </BarChart>
             </ResponsiveContainer>
         );
