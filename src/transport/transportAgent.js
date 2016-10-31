@@ -47,11 +47,7 @@ export default class TransportAgent {
     }
 
     fetchEvents(appId) {
-        return toJsonLogError(fetch(`${this.base}/api/${appId}/events`));
-    }
-
-    fetchEventsCounts(appId, {startDate = null, endDate = null}) {
-        return toJsonLogError(fetch(`${this.base}/api/${appId}/events/count${formatQuery({startDate, endDate})}`));
+        return toJsonLogError(fetch(`${this.base}/api/applications/${appId}/events`));
     }
 
     fetchOneEventCounts(eventId, {startDate = null, endDate = null}) {

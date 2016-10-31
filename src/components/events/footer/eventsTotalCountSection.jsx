@@ -5,7 +5,7 @@ import {observer} from 'mobx-react';
 function EventsTotalCountSection({event}) {
     return (
         <div className="EventsTotalCountSection">
-            Count {event.totalCount}
+            {event.totalCount}
         </div>
     );
 }

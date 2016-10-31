@@ -3,6 +3,12 @@
 @import "~bulma";
 
 
+$text-color: #333030;
+$background-color: #e3dede;
+$main-color: #a3a1a1;
+$accent-color: #8b8687;
+
+
 // fix cuz bulma overrides
 .CalendarMonth td {
   text-align: center;
@@ -22,30 +28,162 @@ html {
 }
 
 .MainSection {
-  height: 100%;
   display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.Header {
+  margin-bottom: 20px;
+  background-color: $background-color;
+
+  &-logoPlaceholder {
+    width: 30px;
+    height: 30px;
+    background-color: $accent-color;
+  }
+}
+
+.Main {
+  display: flex;
+  height: 100%;
 }
 
 .Stage {
   flex: 1;
+  background-color: whitesmoke;
+}
+
+.EventsHeader {
+  background-color: white;
+  margin: 0 20px 20px 20px;
+  min-height: 80px;
+  padding: 10px;
+  display: flex;
+
+  &-left {
+    flex: 1;
+  }
+
+  &-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+.StatsPanel {
+  display: flex;
+  flex-direction: column;
+}
+
+.EventsMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0 20px;
+  background-color: white;
+
+  &-header {
+    padding: 10px;
+    margin-bottom: 10px;
+    min-height: 50px;
+    display: flex;
+  }
+
+  &-headerLeft {
+    flex: 1;
+  }
+
+  &-headerCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+
+  &-headerRight {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &-chartWrap {
+    height: 100%;
+  }
+}
+
+.EventsChartSwitcher {
+  padding: 10px;
+  display: flex;
+  cursor: pointer;
+
+  &-item {
+    font-size: 24px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.is-active {
+      border-bottom: 2px solid $main-color;
+    }
+  }
+}
+
+.EventsFooter {
+  background-color: white;
+  margin: 20px;
+  padding: 10px;
 }
 
 .SidePanel {
-  border-right: 1px solid black;
-  width: 200px;
-  height: 100%;
+  background-color: white;
+  min-width: 200px;
+  max-width: 200px;
+  min-height: 100%;
+  padding: 5px;
 
   @media (max-width: 768px) {
     width: 100px;
   }
 
-  &-Header {
+  &-header {
     height: 50px;
+    margin: 5px 0;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
   }
+
+  &-eventsList {
+    padding: 5px 5px 5px 15px;
+  }
+
+  &-searchBox {
+    margin: 0 -5px;
+    input {
+      padding: 0 5px;
+      font-size: 20px;
+      height: 30px;
+      border: none;
+      border-bottom: 1px solid $main-color;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+
+}
+
+.EventsListItem {
+  margin: 15px 0;
+  cursor: pointer;
 }
 
 .ApplicationsList {
@@ -70,6 +208,7 @@ html {
   }
 }
 
-.StageEvents, .StatsPanel, .EventsMain {
+.StageEvents, .StatsPanel {
   height: 100%;
+  background-color: inherit;
 }

@@ -9,6 +9,7 @@ import './styles/mains.scss';
 import Store from './store/store';
 import TransportAgent from './transport/transportAgent';
 
+import Header from './containers/header.jsx';
 import SidePanel from './containers/sidePanel.jsx';
 import Stage from './containers/stage.jsx';
 
@@ -22,8 +23,11 @@ class AppWrap extends React.Component {
     render() {
         return (
             <div className="MainSection">
-                {store.activeApplicationId === null ? null : <SidePanel {...this.props}/>}
-                <Stage {...this.props}/>
+                <Header {...this.props}/>
+                <div className="Main">
+                    {store.activeApplicationId === null ? null : <SidePanel {...this.props}/>}
+                    <Stage {...this.props}/>
+                </div>
             </div>
         );
     }

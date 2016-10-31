@@ -7,7 +7,10 @@ import DateRangePicker from './eventsDatePicker.jsx';
 function EventsHeader({application}) {
     return (
         <header className="EventsHeader">
-            <DateRangePicker app={application} />
+            <div className="EventsHeader-left"></div>
+            <div className="EventsHeader-right">
+                <DateRangePicker app={application} />
+            </div>
         </header>
     );
 }
