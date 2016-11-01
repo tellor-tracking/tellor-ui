@@ -8,7 +8,7 @@ class Store {
 
     @observable applications = [];
     @observable activeApplicationId = null;
-    @observable showInfoApplicationId  = null;
+    @observable showSettingsApplicationId  = null;
 
     @observable isInitialLoadDone = true;
 
@@ -59,7 +59,7 @@ class Store {
 
     @action createApplication(appData) {
         this.transportAgent.createApplication(appData)
-            .then(r => this.applications.push(new Application(this, Object.assign({}, appData, r))))
+            .then(r => this.applications.push(new Application(this, Object.assign({}, appData, r))));
     }
 }
 
@@ -88,17 +88,21 @@ class Application {
         reaction(() => this.isActive, (isActive) => isActive ? this.fetchEvents() : this.deselectActiveEvent());
     }
 
-    @action select() {
+    @action select = () => {
         this.store.selectApplication(this.id);
-    }
+    };
 
-    @action deselect() {
+    @action deselect = () => {
         this.store.deselectActiveApplication();
-    }
+    };
 
-    @action showInfo() {
-        this.store.showInfopplicationId = this.id;
-    }
+    @action showSettings = () => {
+        this.store.showSettingsApplicationId = this.id;
+    };
+
+    @action hideSettings = () => {
+        this.store.showSettingsApplicationId = null;
+    };
 
     @action fetchEvents() {
         this.isFetching = true;

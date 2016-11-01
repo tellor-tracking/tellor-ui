@@ -55,6 +55,8 @@ html {
 }
 
 .Stage {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   background-color: whitesmoke;
 }
@@ -212,6 +214,19 @@ html {
   cursor: pointer;
 }
 
+.StageApplications {
+  margin: 0 20px 20px 20px;
+  box-shadow: $bs-big;
+  background-color: white;
+  flex: 1;
+  display: flex;
+
+  &-container {
+    padding: 5vw 15vw;
+    flex: 1;
+  }
+}
+
 .ApplicationsList {
   &-item {
     display: flex;
@@ -230,6 +245,32 @@ html {
     margin:0 15px 15px 0;
     &:focus {
       outline: none;
+    }
+  }
+}
+
+.ApplicationSettings {
+  display: flex;
+  justify-content: center;
+
+  &-content {
+    flex: 1;
+    max-width: 600px;
+  }
+
+  &-header {
+    display: flex;
+    margin-bottom: 3vw;
+
+    &Left {
+      flex: 1;
+    }
+
+    &Right {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
     }
   }
 }

@@ -13,7 +13,7 @@ class Stage extends React.Component {
     render() {
         return (
             <div className="Stage">
-                {this.props.store.activeApplicationId === null ?
+                {this.props.store.activeApplicationId === null || this.props.store.showSettingsApplicationId !== null ?
                     <StageApplications {...this.props}/> :
                     <StageEvents {...this.props}/>
                 }

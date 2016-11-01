@@ -1,8 +1,8 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 
-import ApplicationsList from '../components/applications/applicationsList.jsx';
-import ApplicationsCreateNew from '../components/applications/applicationsCreateNew.jsx';
+import Applications from '../components/applications/list/index.jsx';
+import ApplicationsSettings from '../components/applications/settings/index.jsx';
 
 @observer
 class StageApplications extends React.Component {
@@ -12,11 +12,11 @@ class StageApplications extends React.Component {
 
     render() {
         return (
-            <section className="section is-large">
-                <div className="StageApplications container">
-                    <ApplicationsList {...this.props} />
-                    <ApplicationsCreateNew {...this.props} />
-                </div>
+            <section className="StageApplications">
+                {this.props.store.showSettingsApplicationId !== null ?
+                    <ApplicationsSettings {...this.props}/> :
+                    <Applications {...this.props}/>
+                }
             </section>
         );
     }

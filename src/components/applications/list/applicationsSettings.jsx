@@ -2,7 +2,7 @@ import React from 'react';
 import {observer} from 'mobx-react';
 
 @observer
-class Stage extends React.Component {
+class ApplicationSettings extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -15,4 +15,4 @@ class Stage extends React.Component {
     }
 }
 
-export default Stage;
+export default ApplicationSettings;

@@ -9,10 +9,10 @@ function name({name, onClick}) {
     );
 }
 
-function infoBtn({appKey}) {
+function infoBtn({showSettings}) {
     return (
-        <span className="ApplicationsList-infoBtn subtitle">
-            {`app key: ${appKey}`}
+        <span onClick={showSettings} className="ApplicationsList-infoBtn subtitle">
+            Settings
         </span>
     );
 }
@@ -24,7 +24,7 @@ function ApplicationsListItem({app}) {
     return (
         <div className="ApplicationsList-item">
             <Name onClick={app.select.bind(app)} name={app.name}/>
-            <InfoBtn appKey={app.id}/>
+            <InfoBtn showSettings={app.showSettings}/>
         </div>
     );
 }
