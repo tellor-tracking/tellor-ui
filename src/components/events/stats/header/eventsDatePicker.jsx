@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import { DATE_FORMAT } from '../../../constants';
+import { DATE_FORMAT } from '../../../../constants';
 import {DateRangePicker} from 'react-dates';
 
 class EventsDatePicker extends React.Component {

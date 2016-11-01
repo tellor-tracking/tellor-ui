@@ -5,8 +5,8 @@ function SidePanelHeader({store}) {
     const title = store.getActiveApplication().name;
 
     return (
-        <div className="SidePanel-header">
-            <h3 onClick={store.deselectActiveApplication} className="title">{title}</h3>
+        <div onClick={store.deselectActiveApplication} className="SidePanel-header">
+            <h3 className="title">{title}</h3>
         </div>
     );
 }
