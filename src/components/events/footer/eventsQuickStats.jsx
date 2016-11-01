@@ -10,22 +10,22 @@ function EventsQuickStats({event}) {
         <div className="EventsMain-quickStats">
             <nav className="level">
                 <div className="level-item has-text-centered">
-                    <p className="heading">Count</p>
-                    <p className="title">
+                    <span className="heading">Count</span>
+                    <span className="title">
                         <EventsTotalCountSection event={event} />
-                    </p>
+                    </span>
                 </div>
                 <div className="level-item has-text-centered">
-                    <p className="heading">last 7 days</p>
-                    <p className="title">{`+ 0%`}</p>
+                    <span className="heading">last 7 days</span>
+                    <span className="title">{`+ 0%`}</span>
                 </div>
                 <div className="level-item has-text-centered">
-                    <p className="heading">last 30 days</p>
-                    <p className="title">{`+ 0%`}</p>
+                    <span className="heading">last 30 days</span>
+                    <span className="title">{`+ 0%`}</span>
                 </div>
                 <div className="level-item has-text-centered">
-                    <p className="heading">last 60 days</p>
-                    <p className="title">{`+ 0%`}</p>
+                    <span className="heading">last 60 days</span>
+                    <span className="title">{`+ 0%`}</span>
                 </div>
             </nav>
         </div>

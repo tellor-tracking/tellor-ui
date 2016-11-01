@@ -36,6 +36,7 @@
     "mobx-react-devtools": "^4.2.9",
     "moment": "^2.15.2",
     "object-assign": "4.1.0",
+    "perfect-scrollbar": "^0.6.13",
     "react": "^15.3.2",
     "react-addons-shallow-compare": "^15.3.2",
     "react-dates": "^3.4.0",
