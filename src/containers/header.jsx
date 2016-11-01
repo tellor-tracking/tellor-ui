@@ -12,10 +12,20 @@ class Header extends React.Component {
             <div className="Header nav">
                 <div className="Header-leftSide nav-left">
                     <a className="nav-item is-brand" href="#">
-                        <div className="Header-logoPlaceholder"></div>
+                        <div className="Header-logoPlaceholder">T</div>
                     </a>
                 </div>
-            </div>
+                <div className="Header-leftSide nav-right">
+                    <a className="Header-link nav-item is-inactive">
+                        Documentation
+                    </a>
+                    <a href="https://github.com/tellor-tracking" className="Header-link nav-item">
+                        <span className="icon">
+                            <i className="fa fa-github"></i>
+                        </span>
+                    </a>
+                </div>
+                </div>
         );
     }
 }
