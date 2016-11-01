@@ -8,8 +8,10 @@ import ApplicationsCreateNew from './applicationsCreateNew.jsx';
 function Applications() {
     return (
         <div className="StageApplications-container">
-            <ApplicationsList {...this.props} />
-            <ApplicationsCreateNew {...this.props} />
+            <div className="StageApplications-content">
+                <ApplicationsList {...this.props} />
+                <ApplicationsCreateNew {...this.props} />
+            </div>
         </div>
     );
 }

@@ -11,8 +11,7 @@ function name({name, onClick}) {
 
 function infoBtn({showSettings}) {
     return (
-        <span onClick={showSettings} className="ApplicationsList-infoBtn subtitle">
-            Settings
+        <span onClick={showSettings} className="ApplicationsList-infoBtn fa fa-2x fa-cog">
         </span>
     );
 }

@@ -26,7 +26,6 @@ class EventsLineChart extends React.Component {
             return names.concat(Object.keys(obj));
         }, [])).filter(v => v !== 'date');
 
-        // TODO add colors,
         return keys.map((k, i) => <Line key={k}
                                    type="monotone"
                                    name={capitalize(k)}
@@ -44,7 +43,7 @@ class EventsLineChart extends React.Component {
         return (
             <ResponsiveContainer>
                 <LineChart data={dataToDisplay}
-                           margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+                           margin={{top: 5, right: 50, left: 20, bottom: 5}}>
                     <XAxis dataKey="date"/>
                     <YAxis/>
                     <CartesianGrid strokeDasharray="3 3"/>
