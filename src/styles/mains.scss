@@ -49,6 +49,7 @@ html {
 .Header {
   margin-bottom: 20px;
   background-color: $main-color;
+  box-shadow: $bs-small;
 
   &-logoPlaceholder {
     font-size: 24px;
@@ -71,6 +72,7 @@ html {
 .Main {
   display: flex;
   height: 100%;
+  margin-top: -20px;
 }
 
 .Stage {
@@ -87,7 +89,6 @@ html {
   padding: 10px 10px 10px 20px;
   display: flex;
   box-shadow: $bs-small;
-  border-top-right-radius: $br-medium;
   border-bottom-right-radius: $br-medium;
 
   &-left {
