@@ -1,5 +1,5 @@
 {
-  "name": "Tellor-ui",
+  "name": "tellor-ui",
   "version": "1.0.0",
   "description": "Client side code for Tellor event tracking analytics",
   "engines": {

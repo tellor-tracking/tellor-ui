@@ -40,6 +40,7 @@ class EventsLineChart extends React.Component {
     render() {
 
         const dataToDisplay = toJS(this.props.event.dataToDisplay);
+
         return (
             <ResponsiveContainer>
                 <LineChart data={dataToDisplay}

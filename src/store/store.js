@@ -228,7 +228,7 @@ class Event {
 
     @action selectSegmentation = (value) => {
         this.activeSegmentation = value;
-        this.dataToDisplayKey = `segmentation.${value}`;
+        this.dataToDisplayKey = value === this.DEFAULT_SEGMENTATION ? value : `segmentation.${value}`;
         this.setDataToDisplay();
     };
 

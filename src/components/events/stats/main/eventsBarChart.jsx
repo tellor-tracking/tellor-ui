@@ -1,8 +1,7 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import {toJS} from 'mobx';
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
-import uniq from 'lodash/uniq';
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts';
 import capitalize from 'lodash/capitalize';
 
 function addToCount(key, value, obj) {
@@ -24,7 +23,7 @@ function calcAccumulatedCounts(data) {
     return splitIntoSeparateObject(data.reduce((result, oneCount) => {
             for (let key in oneCount) {
                 if (key !== 'date') {
-                    addToCount(key, oneCount[key], result);
+                    addToCount(capitalize(key), oneCount[key], result);
                 }
             }
 
