@@ -5,14 +5,14 @@ import DateRangePicker from './eventsDatePicker.jsx';
 import Filters from './filters.jsx';
 
 
-function EventsHeader({application}) {
+function EventsHeader({app}) {
     return (
         <header className="EventsHeader">
             <div className="EventsHeader-left">
-                <Filters app={application} />
+                <Filters app={app} />
             </div>
             <div className="EventsHeader-right">
-                <DateRangePicker app={application} />
+                <DateRangePicker app={app} />
             </div>
         </header>
     );

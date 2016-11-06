@@ -5,7 +5,7 @@ import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 import capitalize from 'lodash/capitalize';
 
 function addToCount(key, value, obj) {
-    if (obj.key !== undefined) {
+    if (obj[key] !== undefined) {
         obj[key] += value;
     } else {
         obj[key] = value;

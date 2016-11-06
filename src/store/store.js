@@ -65,7 +65,23 @@ class Store {
 
 
 class Application {
+
+
+    FILTERS = {
+        ADD_FILTER: 'ADD_FILTER',
+        VALUES: { // todo these should come from server
+            IP: 'ip',
+            APP: 'appVersion',
+        },
+
+        OPERATORS: {
+            EQ: '=',
+            NEQ: '!='
+        }
+    };
+
     @observable events = [];
+    @observable eventsFilters = [];
     @observable id = null;
     @observable name = null;
     @observable isActive = false;
@@ -79,14 +95,19 @@ class Application {
     };
 
 
-    constructor(store, {id, name}) {
+    constructor(store, applicationData) {
         this.store = store;
+        this.setBasicValues(applicationData);
 
-        this.id = id;
-        this.name = name;
 
         reaction(() => this.isActive, (isActive) => isActive ? this.fetchEvents() : this.deselectActiveEvent());
     }
+
+    @action setBasicValues = ({id, name, eventsFilters}) => {
+        this.id = id;
+        this.name = name;
+        this.eventsFilters = eventsFilters;
+    };
 
     @action select = () => {
         this.store.selectApplication(this.id);
@@ -96,12 +117,34 @@ class Application {
         this.store.deselectActiveApplication();
     };
 
+    @action update = () => {
+        this.store.transportAgent.fetchApplication(this.id)
+            .then(app => this.setBasicValues(app));
+
+    };
+
     @action showSettings = () => {
         this.store.showSettingsApplicationId = this.id;
     };
 
     @action hideSettings = () => {
         this.store.showSettingsApplicationId = null;
+    };
+
+    @action selectFilter = (value) => {
+        if (value === this.FILTERS.ADD_FILTER) {
+            this.showSettings();
+        }
+    };
+
+    @action createFilter = ({filter, operator, value}) => {
+        this.store.transportAgent.createEventsFilter(this.id, `${filter}${operator}${value}`)
+            .then(this.update);
+    };
+
+    @action removeFilter = (filterId) => {
+        this.store.transportAgent.removeEventsFilter(this.id, filterId)
+            .then(this.update);
     };
 
     @action fetchEvents() {

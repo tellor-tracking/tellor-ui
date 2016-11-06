@@ -261,7 +261,7 @@ html {
 
 .StageApplications {
   margin: 0 20px 20px 20px;
-  box-shadow: $bs-big;
+  box-shadow: $bs-small;
   background-color: white;
   flex: 1;
   display: flex;
@@ -321,6 +321,39 @@ html {
       justify-content: flex-end;
       align-items: center;
     }
+  }
+
+  &-bodySection {
+    margin-bottom: 50px;
+
+    hr {
+      margin: 10px 0;
+    }
+
+  }
+
+  &-bodyHeader {
+    margin-bottom: 0 !important; // TODO fix this by either removing or reconfiguring bulma
+  }
+}
+
+.ApplicationsFilters {
+
+  &-addFilter {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+  }
+
+  &-addFilterInputs span {
+    margin-right: 10px;
+  }
+
+  &-listItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    margin: 10px 0;
   }
 }
 

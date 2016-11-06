@@ -22,6 +22,11 @@ export default class TransportAgent {
     constructor(base = '') {
         this.base = base;
     }
+
+    fetchApplication(appId) {
+        return fetch(`${this.base}/api/applications/${appId}`).then(r=> r.json());
+    }
+
     fetchApplications() {
         return fetch(`${this.base}/api/applications`).then(r=> r.json());
     }
@@ -52,5 +57,24 @@ export default class TransportAgent {
 
     fetchOneEventCounts(eventId, {startDate = null, endDate = null}) {
         return toJsonLogError(fetch(`${this.base}/api/events/${eventId}/count${formatQuery({startDate, endDate})}`));
+    }
+
+    createEventsFilter(appId, filterValue) {
+        return toJsonLogError(fetch(
+            `${this.base}/api/applications/${appId}/eventsFilters`,
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({eventFilter: {filterValue}})
+            }
+        ));
+    }
+
+    removeEventsFilter(appId, filterId) {
+        return toJsonLogError(fetch(`${this.base}/api/applications/${appId}/eventsFilters/${filterId}`, {method: 'DELETE'}));
+
     }
 }

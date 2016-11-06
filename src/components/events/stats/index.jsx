@@ -9,7 +9,7 @@ import EventsFooter from './footer/index.jsx';
 function EventsStatsPanel({event, application}) {
     return (
         <div className="StatsPanel">
-            <EventsHeader application={application} />
+            <EventsHeader app={application} />
             <EventsMain event={event} />
             <EventsFooter event={event} />
         </div>
