@@ -55,8 +55,12 @@ export default class TransportAgent {
         return toJsonLogError(fetch(`${this.base}/api/applications/${appId}/events`));
     }
 
-    fetchOneEventCounts(eventId, {startDate = null, endDate = null}) {
-        return toJsonLogError(fetch(`${this.base}/api/events/${eventId}/count${formatQuery({startDate, endDate})}`));
+    fetchOneEventStats(eventId, {startDate = null, endDate = null, ipFilter = null, appVersionFilter = null}) {
+        let filters = '';
+        if (appVersionFilter || ipFilter) {
+            filters = `&filters=${ipFilter ? appVersionFilter ? ipFilter + ',' + appVersionFilter : ipFilter : appVersionFilter}`;
+        }
+        return toJsonLogError(fetch(`${this.base}/api/events/${eventId}/count${formatQuery({startDate, endDate})}${filters}`));
     }
 
     createEventsFilter(appId, filterValue) {

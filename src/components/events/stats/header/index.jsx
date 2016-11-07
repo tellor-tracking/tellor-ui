@@ -2,7 +2,7 @@ import React from 'react';
 import {observer} from 'mobx-react';
 
 import DateRangePicker from './eventsDatePicker.jsx';
-import Filters from './filters.jsx';
+import Filters from './eventsFilters.jsx';
 
 
 function EventsHeader({app}) {

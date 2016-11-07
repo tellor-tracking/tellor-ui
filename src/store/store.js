@@ -91,7 +91,9 @@ class Application {
 
     @observable statsQuery = {
         startDate: moment.utc().subtract(30, 'days').format(DATE_FORMAT),
-        endDate: moment.utc().format(DATE_FORMAT)
+        endDate: moment.utc().format(DATE_FORMAT),
+        appVersionFilter: null,
+        ipFilter: null
     };
 
 
@@ -131,10 +133,21 @@ class Application {
         this.store.showSettingsApplicationId = null;
     };
 
-    @action selectFilter = (value) => {
+    @action selectFilter = (value, type = null) => {
         if (value === this.FILTERS.ADD_FILTER) {
-            this.showSettings();
+            return this.showSettings();
         }
+
+        if (type === this.FILTERS.VALUES.APP) {
+            this.statsQuery.appVersionFilter = value;
+        }
+
+        if (type === this.FILTERS.VALUES.IP) {
+            this.statsQuery.ipFilter = value;
+        }
+
+        const activeEvent = this.getActiveEvent();
+        activeEvent && activeEvent.fetchStatsOnInterval();
     };
 
     @action createFilter = ({filter, operator, value}) => {
@@ -240,9 +253,9 @@ class Event {
         this.id = id;
         this.name = name;
         this.segmentation = segmentation;
-        reaction(() => this.isActive, (isActive) => isActive ? this.fetchBasicCountsOnInterval() : null);
-        reaction(() => this.application.statsQuery.startDate, () => this.fetchBasicCountsOnInterval());
-        reaction(() => this.application.statsQuery.endDate, () => this.fetchBasicCountsOnInterval());
+        reaction(() => this.isActive, (isActive) => isActive ? this.fetchStatsOnInterval() : null);
+        reaction(() => this.application.statsQuery.startDate, () => this.fetchStatsOnInterval());
+        reaction(() => this.application.statsQuery.endDate, () => this.fetchStatsOnInterval());
     }
 
     @action select = () => {
@@ -253,10 +266,10 @@ class Event {
         this.application.deselectActiveEvent();
     };
 
-    @action fetchBasicCountsOnInterval = () => {
+    @action fetchStatsOnInterval = () => {
         clearTimeout(this.fetchTimeOutId);
         this.isFetching = true;
-        this.store.transportAgent.fetchOneEventCounts(this.id, this.application.statsQuery)
+        this.store.transportAgent.fetchOneEventStats(this.id, this.application.statsQuery)
             .then(stats => {
                 this.stats = stats;
                 this.isFetching = false;
@@ -265,7 +278,7 @@ class Event {
             .catch(() => this.isFetching = false);
 
         if (this.isActive) {
-            this.fetchTimeOutId = setTimeout(this.fetchBasicCountsOnInterval, this.statsPoolingInterval);
+            this.fetchTimeOutId = setTimeout(this.fetchStatsOnInterval, this.statsPoolingInterval);
         }
     };
 
