@@ -1,10 +1,12 @@
-import { observable, computed, action, reaction, autorun, asStructure, asReference, toJS } from 'mobx';
+import { observable, action, reaction } from 'mobx';
 import _get from 'lodash/get';
 import moment from 'moment';
 import { DATE_FORMAT } from '../constants';
 
 
 class Store {
+    @observable username = '';
+    @observable isAuthenticated = false;
 
     @observable applications = [];
     @observable activeApplicationId = null;
@@ -12,22 +14,42 @@ class Store {
 
     @observable isInitialLoadDone = true;
 
-    constructor(transportAgent) {
+    constructor(transportAgent, browserHistory) {
+
+        transportAgent.setAuthFailHandler(this.handleAuthFail);
+
         this.transportAgent = transportAgent;
-        transportAgent.fetchApplications()
-            .then((result)=> {
-                this.onApplicationsLoad(result);
-                this.isInitialLoadDone = true;
-            });
+        this.browserHistory = browserHistory;
     }
 
-    onApplicationsLoad(result) {
-        result.forEach(a => this.applications.push(new Application(this, a)));
-    }
+    handleAuthFail = (fetchPromise) => {
+        this.isAuthenticated = false;
+        this.browserHistory.push('/login');
+        return Promise.reject({isAuthFailed: true, message: 'Auth failed skipping promise chain, redirecting to login'});
+    };
 
     getApplication(id) {
         return this.applications.find(app => app.id === id);
     }
+
+    @action fetchApplications = () => {
+        this.transportAgent.fetchApplications()
+            .then((result)=> {
+                result.forEach(a => this.applications.push(new Application(this, a)));
+                this.isInitialLoadDone = true;
+            });
+    };
+
+    @action authenticate = ({username, password}) => {
+        this.transportAgent.authenticate(username, password)
+            .then(result => {
+                if (result.isSuccessful) {
+                    this.username = username;
+                    this.isAuthenticated = true;
+                    this.browserHistory.push('/app');
+                }
+            });
+    };
 
     @action getActiveApplication() {
         return this.getApplication(this.activeApplicationId);

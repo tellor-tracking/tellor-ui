@@ -357,6 +357,23 @@ html {
   }
 }
 
+
+.Login {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &-form {
+    padding: 2.5vw;
+    background-color: white;
+    border-radius: $br-medium;
+    button {
+      margin-top: 20px;
+    }
+  }
+
+}
+
 .StageEvents, .StatsPanel {
   height: 100%;
   background-color: inherit;

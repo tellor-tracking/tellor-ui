@@ -1,39 +1,32 @@
+import 'babel-polyfill';
 import 'whatwg-fetch';
 import React from 'react';
 import {render} from 'react-dom';
-import {observer} from 'mobx-react';
-import DevTools from 'mobx-react-devtools';
+import {Router, Route, IndexRedirect, browserHistory} from 'react-router';
 
 import './styles/mains.scss';
 
 import Store from './store/store';
 import TransportAgent from './transport/transportAgent';
 
-import Header from './containers/header.jsx';
-import SidePanel from './containers/sidePanel.jsx';
-import Stage from './containers/stage.jsx';
+import AppWrap from './containers/appWrap.jsx';
+import App from './containers/app.jsx';
+import Login from './containers/login.jsx';
 
 
-@observer
-class AppWrap extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+const store = new Store(new TransportAgent('http://localhost:4000'), browserHistory);
 
-    render() {
-        return (
-            <div className="MainSection">
-                <Header {...this.props}/>
-                <div className="Main">
-                    {store.activeApplicationId === null ? null : <SidePanel {...this.props}/>}
-                    <Stage {...this.props}/>
-                </div>
-            </div>
-        );
-    }
+function createElement (Component, props) {
+    // pass store to all components rendered by router
+    return <Component store={store} {...props} />;
 }
 
-const store = new Store(new TransportAgent('http://localhost:4000'));
-
-render(<AppWrap store={store}/>, document.getElementById('app'));
+render(
+    <Router history={browserHistory} createElement={createElement}>
+        <Route path="/" component={AppWrap}>
+            <IndexRedirect to="/app"/>
+            <Route onEnter={() => store.fetchApplications()} path="app" component={App}/>
+            <Login path="login" component={Login}/>
+        </Route>
+    </Router>, document.getElementById('app'));
 

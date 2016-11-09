@@ -1,8 +1,10 @@
+function toJson(fetchPromise) {
+    return fetchPromise.then(r => r.json());
+}
 
-function toJsonLogError(fetchPromise) {
-    return fetchPromise.then(r => r.json()).catch(e => {
+function logError(fetchPromise) {
+    return fetchPromise.catch(e => {
         console.error('Failed to fetch', e);
-        return Promise.reject(e);
     });
 }
 
@@ -21,28 +23,73 @@ function formatQuery(queryObject) {
 export default class TransportAgent {
     constructor(base = '') {
         this.base = base;
+        this._authToken = null;
+        this.authFailHandler = () => {
+            throw Error('Missing auth fail handler');
+        };
+    }
+
+    setAuthFailHandler(handler) {
+        this.authFailHandler = handler;
+    }
+
+    handleAuthFail(fetchPromise) {
+        return fetchPromise.then(r => {
+            if (r.status === 401) {
+                return this.authFailHandler(r);
+            }
+
+            return r;
+        });
+    }
+
+
+    fetch(method, {uri, body, resultToJson = true}) {
+
+        const conf = {
+            credentials: 'include',
+            method: method,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': this._authToken
+            }
+        };
+
+        if (body) {
+            conf.body = JSON.stringify(body);
+        }
+
+
+        const f = this.handleAuthFail(fetch(`${this.base}${uri}`, conf));
+        const l = logError(resultToJson ? toJson(f) : f);
+
+        return {
+            then(fn) {
+                return l.then(fn).catch(e => ({authFailed: true, e})); // we override then to att catch to handle auth fail
+            }
+        };
+    }
+
+    authenticate(account, password) {
+        return this.fetch('POST', {uri: '/authenticate', body: {account, password}, resultToJson: false})
+            .then(response => {
+                this._setAuthToken(response.headers.get('Authorization'));
+                return response.json();
+            });
     }
 
     fetchApplication(appId) {
-        return fetch(`${this.base}/api/applications/${appId}`).then(r=> r.json());
+        return this.fetch('GET', {uri: `/api/applications/${appId}`});
     }
 
     fetchApplications() {
-        return fetch(`${this.base}/api/applications`).then(r=> r.json());
+        return this.fetch('GET', {uri: `/api/applications`});
+
     }
 
     createApplication(appData) {
-
-        return toJsonLogError(fetch(`${this.base}/api/applications`,
-            {
-                method: 'POST',
-                body: JSON.stringify(appData),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }
-        ));
+        return this.fetch('POST', {uri: `/api/applications`, body: appData});
     }
 
     fetchInitialApplicationData() {
@@ -52,7 +99,7 @@ export default class TransportAgent {
     }
 
     fetchEvents(appId) {
-        return toJsonLogError(fetch(`${this.base}/api/applications/${appId}/events`));
+        return this.fetch('GET', {uri: `/api/applications/${appId}/events`});
     }
 
     fetchOneEventStats(eventId, {startDate = null, endDate = null, ipFilter = null, appVersionFilter = null}) {
@@ -60,25 +107,24 @@ export default class TransportAgent {
         if (appVersionFilter || ipFilter) {
             filters = `&filters=${ipFilter ? appVersionFilter ? ipFilter + ',' + appVersionFilter : ipFilter : appVersionFilter}`;
         }
-        return toJsonLogError(fetch(`${this.base}/api/events/${eventId}/count${formatQuery({startDate, endDate})}${filters}`));
+        return this.fetch('GET', {uri: `/api/events/${eventId}/count${formatQuery({startDate, endDate})}${filters}`});
+
     }
 
     createEventsFilter(appId, filterValue) {
-        return toJsonLogError(fetch(
-            `${this.base}/api/applications/${appId}/eventsFilters`,
-            {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({eventFilter: {filterValue}})
-            }
-        ));
+        return this.fetch('POST', {
+            uri: `/api/applications/${appId}/eventsFilters`,
+            body: {eventFilter: {filterValue}}
+        });
     }
 
     removeEventsFilter(appId, filterId) {
-        return toJsonLogError(fetch(`${this.base}/api/applications/${appId}/eventsFilters/${filterId}`, {method: 'DELETE'}));
+        return this.fetch('DELETE', {uri: `/api/applications/${appId}/eventsFilters/${filterId}`});
 
+    }
+
+
+    _setAuthToken(token) {
+        this._authToken = token;
     }
 }
