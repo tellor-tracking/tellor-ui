@@ -10,12 +10,15 @@ function Applications(props) {
     props.store.deselectActiveApplication();
 
     return (
-        <div className="StageApplications-container">
-            <div className="StageApplications-content">
-                <ApplicationsList {...props} />
-                <ApplicationsCreateNew {...props} />
+        <div className="StageApplications">
+            <div className="StageApplications-container">
+                <div className="StageApplications-content">
+                    <ApplicationsList {...props} />
+                    <ApplicationsCreateNew {...props} />
+                </div>
             </div>
         </div>
+
     );
 }
 
