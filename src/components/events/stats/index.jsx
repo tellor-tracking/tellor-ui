@@ -19,6 +19,7 @@ function EventsStatsPanel({store, router, routeParams: {eventId}}) {
         return <LoadingOverlay />;
     }
 
+    app.deselectActiveEvent();
     app.selectEvent(eventId);
     const event = app.getActiveEvent();
 
