@@ -1,10 +1,15 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 
+import {LoadingOverlay} from '../../common/loadingOverlay.jsx';
 import Filters from './filters/index.jsx';
 
-function ApplicationsSettings({store}) {
-    const app = store.getApplication(store.showSettingsApplicationId);
+function ApplicationsSettings({store, router, routeParams: {appId}}) {
+    const app = store.getApplication(appId);
+
+    if (!app) {
+        return <LoadingOverlay />;
+    }
 
     return (
         <div className="StageApplications-container">
@@ -15,7 +20,7 @@ function ApplicationsSettings({store}) {
                     </div>
 
                     <div className="ApplicationSettings-headerRight">
-                        <a onClick={app.hideSettings} className="ApplicationSettings-headerControl">Close</a>
+                        <a onClick={router.goBack} className="ApplicationSettings-headerControl">Close</a>
                     </div>
                 </div>
 

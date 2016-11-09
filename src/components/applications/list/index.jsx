@@ -5,12 +5,15 @@ import ApplicationsList from './applicationsList.jsx';
 import ApplicationsCreateNew from './applicationsCreateNew.jsx';
 
 
-function Applications() {
+function Applications(props) {
+
+    props.store.deselectActiveApplication();
+
     return (
         <div className="StageApplications-container">
             <div className="StageApplications-content">
-                <ApplicationsList {...this.props} />
-                <ApplicationsCreateNew {...this.props} />
+                <ApplicationsList {...props} />
+                <ApplicationsCreateNew {...props} />
             </div>
         </div>
     );

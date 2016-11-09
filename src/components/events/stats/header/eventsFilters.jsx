@@ -10,11 +10,18 @@ function Filter({filter}) {
 }
 
 
-function Filters({app}) {
+function Filters({app, router}) {
+    const goToSettings = () => router.push(`/app/${app.id}/settings`);
     return (
         <div className="EventsHeader-filters">
             <span className="EventsHeader-filter select">
-                <select onChange={ev => app.selectFilter(ev.target.value, app.FILTERS.VALUES.APP)} name="f" id="f">
+                <select onChange={ev => {
+                    if (ev.target.value === app.FILTERS.ADD_FILTER) {
+                        goToSettings();
+                    } else {
+                        app.selectFilter(ev.target.value, app.FILTERS.VALUES.APP);
+                    }
+                }} name="f" id="f">
                     <option value={''}>All versions</option>
                     {app.eventsFilters.filter(f => isAppVersionFilter(f.filterValue)).map(f => <Filter key={f.id} filter={f} />)}
                     <option value={app.FILTERS.ADD_FILTER}>+ Add version filter</option>
@@ -22,7 +29,13 @@ function Filters({app}) {
             </span>
 
             <span className="EventsHeader-filter select">
-                <select onChange={ev => app.selectFilter(ev.target.value, app.FILTERS.VALUES.IP)} name="f" id="f">
+                <select onChange={ev => {
+                    if (ev.target.value === app.FILTERS.ADD_FILTER) {
+                        goToSettings();
+                    } else {
+                        app.selectFilter(ev.target.value, app.FILTERS.VALUES.IP);
+                    }
+                }} name="f" id="f">
                     <option value={''}>All IPs</option>
                     {app.eventsFilters.filter(f => !isAppVersionFilter(f.filterValue)).map(f => <Filter key={f.id} filter={f} />)}
                     <option value={app.FILTERS.ADD_FILTER}>+ Add IP filter</option>

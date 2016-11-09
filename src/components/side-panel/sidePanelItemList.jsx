@@ -22,12 +22,18 @@ class SidePanelEventsList extends React.Component {
         PS.update(this.list);
     }
 
+    selectItem = (id) => {
+        this.props.router.push(`/app/${this.props.store.getActiveApplication().id}/events/${id}`);
+    };
+
     render() {
 
         return (
             <div style={{position: 'relative'}} ref={r=> this.list = r} className="SidePanel-eventsList">
                 {this.props.store.getActiveApplication().events.map(ev => (
-                        ev.isVisibleInSidePanel ? <SidePanelEventsListItem key={ev.id} ev={ev}/> : null
+                        ev.isVisibleInSidePanel ?
+                            <SidePanelEventsListItem key={ev.id} ev={ev} onClick={() => this.selectItem(ev.id)}/> :
+                            null
                     )
                 )}
             </div>

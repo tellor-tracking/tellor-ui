@@ -10,7 +10,6 @@ class Store {
 
     @observable applications = [];
     @observable activeApplicationId = null;
-    @observable showSettingsApplicationId  = null;
 
     @observable isInitialLoadDone = true;
 

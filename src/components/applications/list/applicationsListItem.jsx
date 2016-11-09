@@ -3,27 +3,27 @@ import {observer} from 'mobx-react';
 
 function name({name, onClick}) {
     return (
-        <span onClick={onClick} className="ApplicationsList-itemName title">
-            {name}
-        </span>
+            <span onClick={onClick} className="ApplicationsList-itemName title">
+                {name}
+            </span>
     );
 }
 
-function infoBtn({showSettings}) {
+function infoBtn({onClick}) {
     return (
-        <span onClick={showSettings} className="ApplicationsList-infoBtn fa fa-2x fa-cog">
-        </span>
+        <span onClick={onClick} className="ApplicationsList-infoBtn fa fa-2x fa-cog">
+            </span>
     );
 }
 
 const InfoBtn = observer(infoBtn);
 const Name = observer(name);
 
-function ApplicationsListItem({app}) {
+function ApplicationsListItem({app, router}) {
     return (
         <div className="ApplicationsList-item">
-            <Name onClick={app.select.bind(app)} name={app.name}/>
-            <InfoBtn showSettings={app.showSettings}/>
+            <Name onClick={() => router.push(`/app/${app.id}/events`)} name={app.name}/>
+            <InfoBtn onClick={() => router.push(`/app/${app.id}/settings`)}/>
         </div>
     );
 }

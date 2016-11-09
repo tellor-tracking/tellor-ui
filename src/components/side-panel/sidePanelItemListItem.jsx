@@ -2,9 +2,9 @@ import React from 'react';
 import {observer} from 'mobx-react';
 
 
-function SidePanelEventsListItem({ev}) {
+function SidePanelEventsListItem({ev, onClick}) {
     return (
-        <div onClick={ev.select} className="EventsListItem">
+        <div onClick={onClick} className="EventsListItem">
             {ev.name}
         </div>
     );
