@@ -18,8 +18,7 @@ import StageEvents from './containers/stageEvents.jsx';
 import EventsStatsPanels from './components/events/stats/index.jsx';
 
 
-
-const store = new Store(new TransportAgent('http://localhost:4000'), browserHistory);
+const store = new Store(new TransportAgent('<!--@HOST_SERVER-->'), browserHistory);
 
 function createElement (Component, props) {
     // pass store to all components rendered by router
