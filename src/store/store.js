@@ -126,10 +126,10 @@ class Application {
         reaction(() => this.isActive, (isActive) => isActive ? this.fetchEvents() : this.deselectActiveEvent());
     }
 
-    @action setBasicValues = ({id, name, eventsFilters}) => {
-        this.id = id;
+    @action setBasicValues = ({_id, name, eventsFilters}) => {
+        this.id = _id;
         this.name = name;
-        this.eventsFilters = eventsFilters;
+        this.eventsFilters = eventsFilters || [];
     };
 
     @action select = () => {
@@ -194,7 +194,7 @@ class Application {
     @action onEventsLoad(events) {
         this.isFetching = false;
         events.forEach(ev=> {
-            if (!this.events.find(existingEv => existingEv.id === ev.id)) {
+            if (!this.events.find(existingEv => existingEv.id === ev._id)) {
                 this.events.push(new Event(this.store, this, ev));
             }
         });
@@ -267,11 +267,11 @@ class Event {
 
     @observable isFetching = false;
 
-    constructor(store, application, {id, name, segmentation}) {
+    constructor(store, application, {_id, name, segmentation}) {
         this.store = store;
         this.application = application;
 
-        this.id = id;
+        this.id = _id;
         this.name = name;
         this.segmentation = segmentation;
         reaction(() => this.isActive, (isActive) => isActive ? this.fetchStatsOnInterval() : null);

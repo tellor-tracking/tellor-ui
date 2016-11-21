@@ -107,7 +107,7 @@ export default class TransportAgent {
         if (appVersionFilter || ipFilter) {
             filters = `&filters=${ipFilter ? appVersionFilter ? ipFilter + ',' + appVersionFilter : ipFilter : appVersionFilter}`;
         }
-        return this.fetch('GET', {uri: `/api/events/${eventId}/count${formatQuery({startDate, endDate})}${filters}`});
+        return this.fetch('GET', {uri: `/api/events/${eventId}/stats${formatQuery({startDate, endDate})}${filters}`});
 
     }
 
