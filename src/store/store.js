@@ -5,6 +5,7 @@ import { DATE_FORMAT } from '../constants';
 
 
 class Store {
+
     @observable username = '';
     @observable isAuthenticated = false;
 
@@ -86,7 +87,6 @@ class Store {
 
 
 class Application {
-
 
     FILTERS = {
         ADD_FILTER: 'ADD_FILTER',
@@ -241,6 +241,7 @@ class Application {
 }
 
 class Event {
+
     DEFAULT_SEGMENTATION = 'count';
     CHARTS = {
         LINE: 'LINE',

@@ -13,6 +13,7 @@ class Header extends React.Component {
                 <div className="Header-leftSide nav-left">
                     <a className="nav-item is-brand" href="#">
                         <div className="Header-logoPlaceholder">T</div>
+                        <div className="Header-subtitle">Beta</div>
                     </a>
                 </div>
                 <div className="Header-leftSide nav-right">

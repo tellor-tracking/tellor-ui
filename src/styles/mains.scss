@@ -10,6 +10,7 @@ $background-color: #e3dede;
 $main-color: #3E83F9;
 $dark-main-color: #063990;
 $accent-color: #FFA400;
+$accent-color-red: #FE2B48;
 
 $bs-small: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 $bs-medium: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -58,6 +59,17 @@ html {
     width: 30px;
     height: 30px;
     background-color: $accent-color;
+  }
+
+  &-subtitle {
+    position: relative;
+    margin-left: 5px;
+    bottom: -5px;
+    color: $accent-color;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 18px;
+    border-bottom: 2px solid $accent-color;
   }
 
   .Header-link {
