@@ -118,8 +118,8 @@ export default class TransportAgent {
         });
     }
 
-    removeEventsFilter(appId, filterId) {
-        return this.fetch('DELETE', {uri: `/api/applications/${appId}/eventsFilters/${filterId}`});
+    removeEventsFilter(appId, filterId, password = '') {
+        return this.fetch('DELETE', {uri: `/api/applications/${appId}/eventsFilters/${filterId}`, body: {password}});
 
     }
 

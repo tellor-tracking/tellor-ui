@@ -176,8 +176,8 @@ class Application {
             .then(this.update);
     };
 
-    @action removeFilter = (filterId) => {
-        this.store.transportAgent.removeEventsFilter(this.id, filterId)
+    @action removeFilter = (filterId, password) => {
+        this.store.transportAgent.removeEventsFilter(this.id, filterId, password)
             .then(this.update);
     };
 

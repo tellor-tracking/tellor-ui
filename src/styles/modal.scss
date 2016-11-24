@@ -1,0 +1,23 @@
+
+.Modal {
+  &-overlay {
+    z-index: 10000;
+    background-color: rgba(255, 255, 255, 0.74902);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &-content {
+    outline: none;
+    border: 1px solid #999;
+    border-radius: $br-medium; // TODO use variables
+    background-color: white;
+    padding: 15px;
+  }
+}

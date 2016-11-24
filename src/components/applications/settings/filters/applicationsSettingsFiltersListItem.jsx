@@ -1,17 +1,18 @@
 import React from 'react';
 import {observer} from 'mobx-react';
+import confirmationModal from '../../../common/passwordConfirmationModal.jsx';
 
-function FiltersList({app, filter}) {
+function FiltersListItem({app, filter}) {
     return (
         <div className="ApplicationsFilters-listItem">
             <span className="ApplicationsFilters-listItemName">
                 <strong>{filter.filterValue}</strong>
             </span>
 
-            <button onClick={() => app.removeFilter(filter.id)}
+            <button onClick={() => confirmationModal({onConfirm: pss => app.removeFilter(filter.id, pss)})}
                     className="ApplicationsFilters-listItemAction button is-danger">Delete</button>
         </div>
     );
 }
 
-export default observer(FiltersList);
+export default observer(FiltersListItem);
