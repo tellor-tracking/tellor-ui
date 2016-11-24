@@ -9,6 +9,10 @@ class PasswordConfirmationModal extends React.Component {
         this.state = {isOpen: true};
     }
 
+    componentDidMount() {
+        this.password.focus();
+    }
+
     close = () => {
         this.setState({isOpen: false});
         this.props.onDeny && this.props.onDeny();
@@ -27,17 +31,27 @@ class PasswordConfirmationModal extends React.Component {
                         onRequestClose={this.close}
                         shouldCloseOnOverlayClick={true}
                         overlayClassName="Modal-overlay"
-                        className="Modal-content">
-                <div className="Modal-header">
-                    <h3 className="title is-3">Are you sure?</h3>
+                        className="Modal-content Modal-passwordConfirm">
+
+                <div className="Modal-innerContent">
+                    <div className="Modal-header">
+                        <i onClick={this.close} className="Modal-close fa fa-1x fa-times" aria-hidden="true"></i>
+                        <h3 className="title is-3">Are you sure?</h3>
+                    </div>
+
+                    <div className="Modal-body">
+                            <p>You <strong>CANNOT</strong> undo this.</p>
+                            <p>Please enter you password to confirm this action.</p>
+
+                        <input className="Modal-input input" placeholder="Application password or name (if you set no password)" ref={ref => this.password = ref} type="text"/>
+
+                        <div className="Modal-button">
+                            <button onClick={this.confirm} className="button is-danger is-fullwidth">DELETE</button>
+                        </div>
+                    </div>
+
                 </div>
-                <div className="Modal-body">
-                    You CANNOT undo this. Please enter you password to confirm this action.
-                    <input className="input" placeholder="Application password or name (if you set no password)" ref={ref => this.password = ref} type="text"/>
-                </div>
-                <div>
-                    <button onClick={this.confirm} className="button is-danger is-fullwidth">DELETE</button>
-                </div>
+
             </ReactModal>
         );
     }

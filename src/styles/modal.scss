@@ -2,7 +2,7 @@
 .Modal {
   &-overlay {
     z-index: 10000;
-    background-color: rgba(255, 255, 255, 0.74902);
+    background-color: rgba(0, 0, 0, 0.45);
     position: absolute;
     top: 0;
     right: 0;
@@ -14,10 +14,53 @@
   }
 
   &-content {
+    position: relative;
+    top: -15vh;
     outline: none;
     border: 1px solid #999;
     border-radius: $br-medium; // TODO use variables
     background-color: white;
     padding: 15px;
+    display: flex;
+    justify-content: center;
   }
+}
+
+.Modal-passwordConfirm {
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  .Modal-innerContent {
+    width: 400px;
+  }
+
+  .Modal-header {
+    margin-bottom: 15px;
+  }
+
+  .Modal-close {
+    padding: 10px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    color: rgba(0,0,0, 0.3)
+  }
+
+  .Modal-body {
+    line-height: 1.6rem;
+  }
+
+  .Modal-input {
+    margin-bottom: 15px;
+    margin-top: 10px;
+
+  }
+
+  .Modal-button {
+
+  }
+
 }
