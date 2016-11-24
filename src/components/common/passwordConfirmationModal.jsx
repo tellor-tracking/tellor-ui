@@ -59,10 +59,8 @@ class PasswordConfirmationModal extends React.Component {
 
 
 export default function confirmModal({
-    onConfirm: onConfirm,
-    onDeny: onDeny,
-    message: message = 'Default message',
-    title: title
+    onConfirm,
+    onDeny,
 } = {}) {
 
     function hide() {
