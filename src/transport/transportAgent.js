@@ -92,6 +92,10 @@ export default class TransportAgent {
         return this.fetch('POST', {uri: `/api/applications`, body: appData});
     }
 
+    deleteApplication(appId, password) {
+        return this.fetch('DELETE', {uri: `/api/applications/${appId}/delete`, body: {password}});
+    }
+
     fetchInitialApplicationData() {
         // TODO
         // events list, total events count, events count per selected (default) period, most popular events (top 5),

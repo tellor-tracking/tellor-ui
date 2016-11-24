@@ -3,6 +3,7 @@ import {observer} from 'mobx-react';
 
 import {LoadingOverlay} from '../../common/loadingOverlay.jsx';
 import Filters from './filters/index.jsx';
+import General from './general/index.jsx';
 
 function ApplicationsSettings({store, router, routeParams: {appId}}) {
     const app = store.getApplication(appId);
@@ -36,6 +37,12 @@ function ApplicationsSettings({store, router, routeParams: {appId}}) {
                             <h4 className="ApplicationSettings-bodyHeader title is-4">Filters</h4>
                             <hr/>
                             <Filters app={app}/>
+                        </div>
+
+                        <div className="ApplicationSettings-bodySection">
+                            <h4 className="ApplicationSettings-bodyHeader title is-4">General</h4>
+                            <hr/>
+                            <General store={store} appId={appId}/>
                         </div>
 
                     </div>

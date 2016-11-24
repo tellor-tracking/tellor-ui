@@ -69,7 +69,5 @@ export default function confirmModal({
 
     render(<PasswordConfirmationModal onConfirm={onConfirm}
                                       onDeny={onDeny}
-                                      message={message}
-                                      title={title}
                                       hide={hide}/>, document.querySelector('#confirmation-modal'));
 }

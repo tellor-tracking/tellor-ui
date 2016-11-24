@@ -368,6 +368,12 @@ html {
   }
 }
 
+.ApplicationSettings-general {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 
 .Login {
   flex: 1;

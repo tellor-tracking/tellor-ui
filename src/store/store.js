@@ -83,6 +83,17 @@ class Store {
         this.transportAgent.createApplication(appData)
             .then(r => this.applications.push(new Application(this, Object.assign({}, appData, r))));
     }
+
+    @action deleteApplication(appId, password) {
+        this.transportAgent.deleteApplication(appId, password)
+            .then(r => {
+                const i = this.applications.findIndex(a => a.id === appId);
+                if (r.isSuccessful && i !== -1) {
+                    this.applications.splice(i, 1);
+                    this.browserHistory.push('/app');
+                }
+            });
+    }
 }
 
 
