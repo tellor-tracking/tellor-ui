@@ -23,7 +23,7 @@ function formatQuery(queryObject) {
 export default class TransportAgent {
     constructor(base = '') {
         this.base = base;
-        this._authToken = null;
+        this._authToken = sessionStorage.getItem('_authToken');
         this.authFailHandler = () => {
             throw Error('Missing auth fail handler');
         };
@@ -130,5 +130,6 @@ export default class TransportAgent {
 
     _setAuthToken(token) {
         this._authToken = token;
+        sessionStorage.setItem('_authToken', token);
     }
 }
