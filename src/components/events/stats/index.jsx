@@ -14,14 +14,12 @@ function EventsStatsPanel({store, router, routeParams: {eventId}}) {
 
     const app = store.getActiveApplication();
 
-
-    if (app.events.length === 0) {
+    if (!app.isInitialEventsLoadDone) {
         return <LoadingOverlay />;
     }
 
     app.selectEvent(eventId);
     const event = app.getActiveEvent();
-
 
     return (
         <div className="StatsPanel">

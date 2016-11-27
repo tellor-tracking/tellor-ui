@@ -29,7 +29,7 @@ render(
     <Router history={browserHistory} createElement={createElement}>
         <Route path="/" component={AppWrap}>
             <IndexRedirect to="/app"/>
-            <Route path="app" onEnter={() => store.fetchApplications()} component={App}>
+            <Route path="app" onEnter={store.fetchApplications} component={App}>
                 <Route path=":appId/settings" component={ApplicationsSettings}/>
                 <Route path=":appId/events" component={StageEvents}>
                     <Route path=":eventId" component={EventsStatsPanels}/>

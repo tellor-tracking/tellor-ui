@@ -41,7 +41,7 @@ class PasswordConfirmationModal extends React.Component {
 
                     <div className="Modal-body">
                             <p>You <strong>CANNOT</strong> undo this.</p>
-                            <p>Please enter you password to confirm this action.</p>
+                            <p>Please enter applications password to confirm this action.</p>
 
                         <input className="Modal-input input" placeholder="Application password or name (if you set no password)" ref={ref => this.password = ref} type="text"/>
 

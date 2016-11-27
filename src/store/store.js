@@ -118,6 +118,7 @@ class Application {
     @observable name = null;
     @observable isActive = false;
     @observable activeEventId = null;
+    @observable isInitialEventsLoadDone = false;
 
     @observable isFetching = false;
 
@@ -134,7 +135,7 @@ class Application {
         this.setBasicValues(applicationData);
 
 
-        reaction(() => this.isActive, (isActive) => isActive ? this.fetchEvents() : this.deselectActiveEvent());
+        reaction(() => this.isActive, isActive => isActive ? this.fetchEvents() : this.deselectActiveEvent());
     }
 
     @action setBasicValues = ({_id, name, eventsFilters}) => {
@@ -196,19 +197,18 @@ class Application {
         this.isFetching = true;
         this.store.transportAgent.fetchEvents(this.id)
             .then((result) => this.onEventsLoad(result))
-            .catch((error) => {
-                console.error('Failed to fetch events', error);
-                this.isFetching = false;
-            });
+            .catch(() => this.isFetching = false);
     }
 
     @action onEventsLoad(events) {
         this.isFetching = false;
-        events.forEach(ev=> {
-            if (!this.events.find(existingEv => existingEv.id === ev._id)) {
-                this.events.push(new Event(this.store, this, ev));
+
+        for (let event of events) {
+            if (!this.events.find(existingEv => existingEv.id === event._id)) {
+                this.events.push(new Event(this.store, this, event));
             }
-        });
+        }
+        if (!this.isInitialEventsLoadDone) this.isInitialEventsLoadDone = true;
     }
 
     @action filterEvents(filterValue) {
@@ -227,7 +227,6 @@ class Application {
         if (this.activeEventId !== null && this.activeEventId !== id) {
             this.deselectActiveEvent();
         }
-
         const event = this.events.find((e) => e.id === id);
         if (event) {
             this.activeEventId = id;
@@ -246,10 +245,9 @@ class Application {
         this.activeEventId = null;
     };
 
-    @action getActiveEvent = () => {
-        return this.events.find(ev => ev.id === this.activeEventId);
-    }
+    @action getActiveEvent = () => this.events.find(ev => ev.id === this.activeEventId);
 }
+
 
 class Event {
 
@@ -286,7 +284,7 @@ class Event {
         this.id = _id;
         this.name = name;
         this.segmentation = segmentation;
-        reaction(() => this.isActive, (isActive) => isActive ? this.fetchStatsOnInterval() : null);
+        reaction(() => this.isActive, isActive => isActive ? this.fetchStatsOnInterval() : null);
         reaction(() => this.application.statsQuery.startDate, () => this.fetchStatsOnInterval());
         reaction(() => this.application.statsQuery.endDate, () => this.fetchStatsOnInterval());
     }
