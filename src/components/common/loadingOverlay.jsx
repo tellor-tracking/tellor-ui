@@ -3,6 +3,6 @@ import React from 'react';
 
 export function LoadingOverlay() {
     return (
-        <div>Loading...</div>
+        <div className="LoadingOverlay">Loading...</div>
     );
 }

@@ -6,6 +6,10 @@ import Filters from './filters/index.jsx';
 import General from './general/index.jsx';
 
 function ApplicationsSettings({store, router, routeParams: {appId}}) {
+    if (!store.isInitialApplicationsLoadDone) {
+        return <LoadingOverlay />;
+    }
+
     const app = store.getApplication(appId);
 
     if (!app) {
