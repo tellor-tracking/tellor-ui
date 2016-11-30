@@ -49,6 +49,10 @@ export default class Store {
             });
     };
 
+    @action logout = () => {
+        this.isAuthenticated = false;
+    };
+
     @action getActiveApplication() {
         return this.getApplication(this.activeApplicationId);
     }

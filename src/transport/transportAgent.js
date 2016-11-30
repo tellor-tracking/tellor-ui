@@ -23,7 +23,7 @@ function formatQuery(queryObject) {
 export default class TransportAgent {
     constructor(base = '') {
         this.base = base;
-        this._authToken = sessionStorage.getItem('_authToken');
+        this._authToken = sessionStorage.getItem('_authToken'); // TODO how to tell store that its authenticated on load, what to do when invalid token?
         this.authFailHandler = () => {
             throw Error('Missing auth fail handler');
         };
