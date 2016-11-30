@@ -1,7 +1,9 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 
-function EventsStatsPanel({application}) {
+function EventsStatsPanel({store}) {
+
+    const activeApp = store.getActiveApplication();
     return (
         <div className="EventsOverview">
             <div className="EventsOverview-content">

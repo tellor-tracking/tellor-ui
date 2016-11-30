@@ -10,7 +10,7 @@ export default class Store {
     @observable applications = [];
     @observable activeApplicationId = null;
 
-    @observable isInitialLoadDone = true;
+    @observable isInitialApplicationsLoadDone = false;
 
     constructor(transportAgent, browserHistory) {
 
@@ -20,13 +20,13 @@ export default class Store {
         this.browserHistory = browserHistory;
     }
 
-    handleAuthFail = (fetchPromise) => {
+    @action handleAuthFail = (fetchPromise) => {
         this.isAuthenticated = false;
         this.browserHistory.push('/login');
         return Promise.reject({isAuthFailed: true, message: 'Auth failed skipping promise chain, redirecting to login'});
     };
 
-    getApplication(id) {
+    @action getApplication(id) {
         return this.applications.find(app => app.id === id);
     }
 
@@ -34,7 +34,7 @@ export default class Store {
         this.transportAgent.fetchApplications()
             .then((result)=> {
                 result.forEach(a => this.applications.push(new Application(this, a)));
-                this.isInitialLoadDone = true;
+                this.isInitialApplicationsLoadDone = true;
             });
     };
 
@@ -59,6 +59,7 @@ export default class Store {
         }
 
         const app = this.applications.find((a) => a.id === id);
+
         if (app) {
             this.activeApplicationId = id;
             app.isActive = true;

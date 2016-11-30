@@ -1,26 +1,12 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 
-import EventsOverview from '../components/events/overview/index.jsx';
 
-@observer
-class StageEvents extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const {children, store, routeParams: {appId}} = this.props;
-
-        store.selectApplication(appId);
-        const app = store.getApplication(appId);
-
-        return (
-            <div className="StageEvents">
-                {children || <EventsOverview application={app} />}
-            </div>
-        );
-    }
+function StageEvents() {
+    return (
+        <div className="StageEvents">
+            {this.props.children}
+        </div>
+    );
 }
-
-export default StageEvents;
+export default observer(StageEvents);

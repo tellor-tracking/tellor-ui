@@ -1,28 +1,6 @@
-@import '~perfect-scrollbar/src/css/main.scss';
-@import '~react-dates/css/variables.scss';
-@import '~react-dates/css/styles.scss';
-@import "~font-awesome/css/font-awesome.css";
-
-
-// http://paletton.com/#uid=23H0Z0kqyYL61+qi9ZbGUVVLPrf
-$text-color: #333030;
-$background-color: #e3dede;
-$main-color: #3E83F9;
-$dark-main-color: #063990;
-$accent-color: #FFA400;
-$accent-color-red: #FE2B48;
-
-$bs-small: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-$bs-medium: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-$bs-big: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-
-$br-medium: 5px;
-
-$turquoise: $dark-main-color; // override bulmas default color
-@import "~bulma";
-@import "modal";
-
-
+@import "variables";
+@import "vendors";
+@import "sections/all";
 
 // fix cuz bulma overrides
 .CalendarMonth td {
@@ -36,63 +14,6 @@ body {
 html {
   height: 100%;
   overflow-y: auto;
-}
-
-#app {
-  height: 100%;
-}
-
-.MainSection {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.Header {
-  margin-bottom: 20px;
-  background-color: $main-color;
-  box-shadow: $bs-small;
-
-  &-logoPlaceholder {
-    font-size: 24px;
-    font-weight: 600;
-    color: $main-color;
-    width: 30px;
-    height: 30px;
-    background-color: $accent-color;
-  }
-
-  &-subtitle {
-    position: relative;
-    margin-left: 5px;
-    bottom: -5px;
-    color: $accent-color;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 18px;
-    border-bottom: 2px solid $accent-color;
-  }
-
-  .Header-link {
-    color: rgba(255, 255, 255, 0.7);
-
-    &:hover {
-      color: rgba(255, 255, 255, 0.9);;
-    }
-  }
-}
-
-.Main {
-  display: flex;
-  height: 100%;
-  margin-top: -20px;
-}
-
-.Stage {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  background-color: whitesmoke;
 }
 
 .EventsHeader {

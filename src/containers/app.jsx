@@ -1,8 +1,7 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 
-import SidePanel from './sidePanel.jsx';
-import Stage from './stage.jsx';
+import Header from './header.jsx';
 
 @observer
 class App extends React.Component {
@@ -11,10 +10,11 @@ class App extends React.Component {
     }
 
     render() {
+
         return (
-            <div className="Main">
-                {this.props.store.activeApplicationId === null ? null : <SidePanel {...this.props}/>}
-                <Stage {...this.props}/>
+            <div className="App">
+                <Header {...this.props}/>
+                {this.props.children}
             </div>
         );
     }

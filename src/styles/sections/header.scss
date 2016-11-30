@@ -1,0 +1,33 @@
+.Header {
+  margin-bottom: 20px;
+  background-color: $main-color;
+  box-shadow: $bs-small;
+
+  &-logoPlaceholder {
+    font-size: 24px;
+    font-weight: 600;
+    color: $main-color;
+    width: 30px;
+    height: 30px;
+    background-color: $accent-color;
+  }
+
+  &-subtitle {
+    position: relative;
+    margin-left: 5px;
+    bottom: -5px;
+    color: $accent-color;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 18px;
+    border-bottom: 2px solid $accent-color;
+  }
+
+  .Header-link {
+    color: rgba(255, 255, 255, 0.7);
+
+    &:hover {
+      color: rgba(255, 255, 255, 0.9);;
+    }
+  }
+}
