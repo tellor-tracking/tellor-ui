@@ -6,7 +6,7 @@ import {Router, Route, IndexRedirect, browserHistory} from 'react-router';
 
 import './styles/mains.scss';
 
-import Store from './store/store';
+import Store from './store/index';
 import TransportAgent from './transport/transportAgent';
 
 import AppWrap from './containers/appWrap.jsx';
