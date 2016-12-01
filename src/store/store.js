@@ -18,24 +18,32 @@ export default class Store {
 
         this.transportAgent = transportAgent;
         this.browserHistory = browserHistory;
+
+        transportAgent.authCheck().then(() => this.isAuthenticated = true);
     }
 
     @action handleAuthFail = (fetchPromise) => {
-        this.isAuthenticated = false;
-        this.browserHistory.push('/login');
+        this.logout();
         return Promise.reject({isAuthFailed: true, message: 'Auth failed skipping promise chain, redirecting to login'});
     };
 
-    @action getApplication(id) {
+    @action getApplication = (id) => {
         return this.applications.find(app => app.id === id);
-    }
+    };
 
     @action fetchApplications = () => {
         this.transportAgent.fetchApplications()
-            .then((result)=> {
-                result.forEach(a => this.applications.push(new Application(this, a)));
-                this.isInitialApplicationsLoadDone = true;
-            });
+            .then(this.onApplicationsLoad);
+    };
+
+    @action onApplicationsLoad = (applications) => {
+        for (let app of applications) {
+            if (!this.applications.find(existingApp => existingApp.id === app._id)) {
+                this.applications.push(new Application(this, app));
+            }
+        }
+
+        if (!this.isInitialApplicationsLoadDone) this.isInitialApplicationsLoadDone = true;
     };
 
     @action authenticate = ({username, password}) => {
@@ -51,6 +59,8 @@ export default class Store {
 
     @action logout = () => {
         this.isAuthenticated = false;
+        this.browserHistory.push('/login');
+        this.transportAgent.invalidateAuthToken();
     };
 
     @action getActiveApplication() {

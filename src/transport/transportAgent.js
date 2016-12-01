@@ -5,6 +5,7 @@ function toJson(fetchPromise) {
 function logError(fetchPromise) {
     return fetchPromise.catch(e => {
         console.error('Failed to fetch', e);
+        return Promise.reject(e);
     });
 }
 
@@ -66,7 +67,7 @@ export default class TransportAgent {
 
         return {
             then(fn) {
-                return l.then(fn).catch(e => ({authFailed: true, e})); // we override then to att catch to handle auth fail
+                return l.then(fn).catch(e => ({authFailed: true, e})); // we override then to attach to handle auth fail
             }
         };
     }
@@ -127,6 +128,13 @@ export default class TransportAgent {
 
     }
 
+    authCheck() {
+        return this.fetch('GET', {uri: '/authcheck', resultToJson: false});
+    }
+
+    invalidateAuthToken() {
+        this._setAuthToken(null);
+    }
 
     _setAuthToken(token) {
         this._authToken = token;
