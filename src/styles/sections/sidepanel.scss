@@ -1,0 +1,59 @@
+.SidePanel {
+  background-color: darken(whitesmoke, 2%);
+  min-width: 200px;
+  max-width: 200px;
+  min-height: 100%;
+  padding: 20px 0 0;
+  margin-top: -20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: $bs-medium;
+  z-index: 1;
+
+  @media (max-width: 768px) {
+    width: 100px;
+  }
+}
+
+.SidePanelHeader {
+  background-color: white;
+  min-height: 80px;
+  margin: 0 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: $bs-small;
+  transition: all 0.2s cubic-bezier(.25,.8,.25,1);
+
+  &:hover {
+    background-color: darken(white, 5%);
+  }
+}
+
+.SidePanelSearchBox {
+  padding-bottom: 5px;
+  background-color: white;
+  input {
+    width: 100%;
+    padding: 0 10px;
+    font-size: 20px;
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid $dark-main-color;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.SidePanelEventsList {
+  height: 100%;
+  background-color: white;
+}
+
+.SidePanelEventsListItem {
+  background-color: white;
+  padding: 10px 0 5px 15px;
+  cursor: pointer;
+}

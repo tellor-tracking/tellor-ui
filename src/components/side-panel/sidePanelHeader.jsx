@@ -5,7 +5,7 @@ function SidePanelHeader({store, router}) {
     const title = store.getActiveApplication().name;
 
     return (
-        <div onClick={() => router.push(`/app`)} className="SidePanel-header">
+        <div onClick={() => router.push(`/app`)} className="SidePanelHeader">
             <h3 className="title">{title}</h3>
         </div>
     );

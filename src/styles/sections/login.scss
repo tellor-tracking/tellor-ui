@@ -1,0 +1,15 @@
+.Login {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &-form {
+    padding: 2.5vw;
+    background-color: white;
+    border-radius: $br-medium;
+    button {
+      margin-top: 20px;
+    }
+  }
+
+}

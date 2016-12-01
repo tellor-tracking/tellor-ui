@@ -29,7 +29,7 @@ class SidePanelEventsList extends React.Component {
     render() {
 
         return (
-            <div style={{position: 'relative'}} ref={r=> this.list = r} className="SidePanel-eventsList">
+            <div style={{position: 'relative'}} ref={r=> this.list = r} className="SidePanelEventsList">
                 {this.props.store.getActiveApplication().events.map(ev => (
                         ev.isVisibleInSidePanel ?
                             <SidePanelEventsListItem key={ev.id} ev={ev} onClick={() => this.selectItem(ev.id)}/> :

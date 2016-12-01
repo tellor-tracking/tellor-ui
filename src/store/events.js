@@ -60,7 +60,7 @@ export default class Event {
             })
             .catch(() => this.isFetching = false);
 
-        if (this.isActive) {
+        if (this.isActive && this.store.isAuthenticated) {
             this.fetchTimeOutId = setTimeout(this.fetchStatsOnInterval, this.statsPoolingInterval);
         }
     };

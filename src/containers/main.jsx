@@ -1,7 +1,7 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 
-import SidePanel from './sidePanel.jsx';
+import SidePanel from '../components/side-panel/index.jsx';
 import Stage from './stage.jsx';
 
 @observer
