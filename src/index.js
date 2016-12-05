@@ -5,7 +5,8 @@ import {render} from 'react-dom';
 import {Router, Route, IndexRoute, IndexRedirect, browserHistory} from 'react-router';
 import {reaction} from 'mobx';
 
-import './styles/mains.scss';
+import './styles/main.scss';
+import './styles/main.less';
 
 import Store from './store/index';
 import TransportAgent from './transport/transportAgent';

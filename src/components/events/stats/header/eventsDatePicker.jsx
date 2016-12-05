@@ -1,44 +1,48 @@
 import React from 'react';
+import {observer} from 'mobx-react';
 import moment from 'moment';
+import 'moment/locale/en-gb';
 
-import { DATE_FORMAT } from '../../../../constants';
-import {DateRangePicker} from 'react-dates';
+import {DATE_FORMAT} from '../../../../constants';
+import enUS from 'antd/lib/date-picker/locale/en_US';
 
+import DatePicker from 'antd/lib/date-picker/index';
+const RangePicker = DatePicker.RangePicker;
+
+
+@observer
 class EventsDatePicker extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            focusedInput: null,
-        };
 
-        this.onDatesChange = this.onDatesChange.bind(this);
-        this.onFocusChange = this.onFocusChange.bind(this);
-    }
-
-    onDatesChange({ startDate, endDate }) {
+    onDatesChange = ([startDate, endDate]) => {
         if (startDate) {
             this.props.app.statsQuery.startDate = startDate.format(DATE_FORMAT);
         }
         if (endDate) {
             this.props.app.statsQuery.endDate = endDate.format(DATE_FORMAT);
         }
-    }
-
-    onFocusChange(focusedInput) {
-        this.setState({ focusedInput });
-    }
+    };
 
     render() {
-        const {focusedInput} = this.state;
+        moment.locale('en-gb'); // solves a weird bug where locale is lost and it displays chinese letters
+
         return (
             <div className="EventsHeader-dateSection">
-                <DateRangePicker
-                    onDatesChange={this.onDatesChange}
-                    onFocusChange={this.onFocusChange}
-                    focusedInput={focusedInput}
-                    startDate={moment(this.props.app.statsQuery.startDate)}
-                    endDate={moment(this.props.app.statsQuery.endDate)}
-                    isOutsideRange={() => false}
+                <RangePicker
+                    value={[moment(this.props.app.statsQuery.startDate), moment(this.props.app.statsQuery.endDate)]}
+                    locale={enUS}
+                    allowClear={false}
+                    format={DATE_FORMAT}
+                    ranges={{
+                        'Today': [moment(), moment()],
+                        'This week': [moment().startOf('week'), moment().endOf('week')],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        '7 Days': [moment().subtract(7, 'days'), moment()],
+                        '30 Days': [moment().subtract(30, 'days'), moment()],
+                        '60 Days': [moment().subtract(60, 'days'), moment()],
+                        '6 Months': [moment().subtract(6, 'months'), moment()],
+                    }}
+                    onChange={this.onDatesChange}
+                    getCalendarContainer={() => document.querySelector('#date-picker')}
                 />
             </div>
         );

@@ -96,6 +96,7 @@ export default {
             {test: /\.svg(\?v=\d+.\d+.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml&name=[name].[ext]'},
             {test: /\.(jpe?g|png|gif)$/i, loader: 'file?name=[name].[ext]'},
             {test: /\.ico$/, loader: 'file?name=[name].[ext]'},
+            {test: /\.less$/, loaders: ['style', 'css', 'less']},
             {test: /(\.css|\.scss)$/, loader: ExtractTextPlugin.extract('css?sourceMap!postcss!sass?sourceMap')}
         ]
     },
