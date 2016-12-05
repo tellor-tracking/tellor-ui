@@ -10,7 +10,7 @@ export default class Event {
     };
 
     statsPoolingInterval = 15000;
-    fetchTimeOutId = null;
+    fetchTimeoutId = null;
     stats = null;
     dataToDisplayKey = this.DEFAULT_SEGMENTATION;
 
@@ -37,8 +37,7 @@ export default class Event {
         this.name = name;
         this.segmentation = segmentation;
         reaction(() => this.isActive, isActive => isActive ? this.fetchStatsOnInterval() : null);
-        reaction(() => this.application.statsQuery.startDate, () => this.fetchStatsOnInterval());
-        reaction(() => this.application.statsQuery.endDate, () => this.fetchStatsOnInterval());
+        reaction(() => [this.application.statsQuery.startDate, this.application.statsQuery.startDate], () => this.fetchStatsOnInterval());
     }
 
     @action select = () => {
@@ -50,7 +49,11 @@ export default class Event {
     };
 
     @action fetchStatsOnInterval = () => {
-        clearTimeout(this.fetchTimeOutId);
+        if (!this.isActive || !this.store.isAuthenticated) {
+            return;
+        }
+
+        clearTimeout(this.fetchTimeoutId);
         this.isFetching = true;
         this.store.transportAgent.fetchOneEventStats(this.id, this.application.statsQuery)
             .then(stats => {
@@ -60,9 +63,7 @@ export default class Event {
             })
             .catch(() => this.isFetching = false);
 
-        if (this.isActive && this.store.isAuthenticated) {
-            this.fetchTimeOutId = setTimeout(this.fetchStatsOnInterval, this.statsPoolingInterval);
-        }
+        this.fetchTimeoutId = setTimeout(this.fetchStatsOnInterval, this.statsPoolingInterval);
     };
 
     @action selectSegmentation = (value) => {

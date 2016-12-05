@@ -33,7 +33,8 @@ export default class Application {
         startDate: moment.utc().subtract(30, 'days').format(DATE_FORMAT),
         endDate: moment.utc().format(DATE_FORMAT),
         appVersionFilter: null,
-        ipFilter: null
+        ipFilter: null,
+        step: 'day'
     };
 
 
@@ -88,6 +89,18 @@ export default class Application {
 
         const activeEvent = this.getActiveEvent();
         activeEvent && activeEvent.fetchStatsOnInterval();
+    };
+
+    @action setStatsQueryDate = ({startDate, endDate}) => {
+        if (startDate) {
+            this.statsQuery.startDate = startDate.format(DATE_FORMAT);
+        }
+
+        if (endDate) {
+            this.statsQuery.endDate = endDate.format(DATE_FORMAT);
+        }
+
+        this.statsQuery.step =  startDate.isSame(endDate, 'day') ? 'hour' : endDate.diff(startDate, 'months') >= 6 ? 'month' : 'day';
     };
 
     @action createFilter = ({filter, operator, value}) => {

@@ -14,12 +14,7 @@ const RangePicker = DatePicker.RangePicker;
 class EventsDatePicker extends React.Component {
 
     onDatesChange = ([startDate, endDate]) => {
-        if (startDate) {
-            this.props.app.statsQuery.startDate = startDate.format(DATE_FORMAT);
-        }
-        if (endDate) {
-            this.props.app.statsQuery.endDate = endDate.format(DATE_FORMAT);
-        }
+        this.props.app.setStatsQueryDate({startDate, endDate});
     };
 
     render() {

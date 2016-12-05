@@ -107,12 +107,12 @@ export default class TransportAgent {
         return this.fetch('GET', {uri: `/api/applications/${appId}/events`});
     }
 
-    fetchOneEventStats(eventId, {startDate = null, endDate = null, ipFilter = null, appVersionFilter = null}) {
+    fetchOneEventStats(eventId, {startDate = null, endDate = null, ipFilter = null, appVersionFilter = null, step = 'day'}) {
         let filters = '';
         if (appVersionFilter || ipFilter) {
             filters = `&filters=${ipFilter ? appVersionFilter ? ipFilter + ',' + appVersionFilter : ipFilter : appVersionFilter}`;
         }
-        return this.fetch('GET', {uri: `/api/events/${eventId}/stats${formatQuery({startDate, endDate})}${filters}`});
+        return this.fetch('GET', {uri: `/api/events/${eventId}/stats${formatQuery({startDate, endDate, step})}${filters}`});
 
     }
 
