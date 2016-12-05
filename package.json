@@ -41,7 +41,6 @@
     "react": "^15.3.2",
     "react-addons-shallow-compare": "^15.3.2",
     "react-addons-transition-group": "^15.4.1",
-    "react-dates": "^3.4.0",
     "react-dom": "^15.3.2",
     "react-modal": "^1.5.2",
     "react-router": "^3.0.0",
